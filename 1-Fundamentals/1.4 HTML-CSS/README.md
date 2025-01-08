@@ -63,7 +63,7 @@
 - the style properties of CSS classes are only applied to elements where the class name is declared in  the `class` attribute of an HTML element. 
     > for example: `<h1 class="grey-heading">This is a heading</h1>`
 
-### 08/07/2025 - HTML & CSS continuation
+### 08/01/2025 - HTML & CSS continuation
 
 - Simple form
 - Adding images to HTML
