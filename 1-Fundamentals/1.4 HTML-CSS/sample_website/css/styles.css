@@ -1,0 +1,20 @@
+.static-img {
+    position: static;
+}
+
+.relative-img {
+    left: 30px;
+    position: relative;
+    top: 30px;
+}
+
+.fixed-img {
+    position: fixed;
+    bottom: 0px;
+    right: 0px;
+}
+
+.sticky-img {
+    position: sticky;
+    top: 0;
+}

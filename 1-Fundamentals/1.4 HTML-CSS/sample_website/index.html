@@ -4,9 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
     <h1>My First Form</h1>
+    <p>This is a sample paragraph.</p>
+    <div class="sticky-img">
+        <h3>Sticky Position</h3>
+        <img src="img/download.jpeg" alt="Coding Image">
+    </div>
     <form>
         <!-- Name Input -->
         <div>
@@ -15,18 +21,27 @@
         </div>
 
         <!-- Phone Number -->
+        <div>
         <label for="phone">Phone Number:</label>
         <input type="tel" id="phone" name="phone">
+        </div>
+        
 
         <!-- Email -->
+        <div>
         <label for="email">Email Address:</label>
         <input type="email" id="email" name="email">
+        </div>
+        
 
         <!-- Date of Birth -->
+        <div>
         <label for="dob">Date of Birth:</label>
         <input type="date" id="dob" name="dob">
+        </div>
 
         <!-- Radio button -->
+        <div>
         <label>User Type:</label>
 
         <input type="radio" id="player" name="user_type">
@@ -34,8 +49,10 @@
 
         <input type="radio" id="fan" name="user_type">
         <label for="fan">Fan</label>
+        </div>
 
         <!-- Hobbies -->
+        <div>
         <label>Hobbies:</label>
 
         <input type="checkbox" id="sports" name="hobbies">
@@ -49,17 +66,33 @@
 
         <input type="checkbox" id="movies" name="hobbies">
         <label for="movies">Netflix & Chill</label>
+        </div>
 
         <!-- Password -->
+        <div>
         <label for="password">Password</label>
         <input type="password" id="password" name="password">
+        </div>
 
         <!-- submit button -->
         <button type="submit">Save</button>
     </form>
 
     <!-- Add image here -->
-    <img src="img/download.jp" alt="Coding Image">
+    <div class="static-img">
+        <h3>Statically Positioned</h3>
+        <img src="img/download.jpeg" alt="Coding Image">
+    </div>
+
+    <div class="relative-img">
+        <h3>Relatively Positioned</h3>
+        <img src="img/download.jpeg" alt="Coding Image">
+    </div>
+
+    <div class="fixed-img">
+        <h3>Fixed Position</h3>
+        <img src="img/download.jpeg" alt="Coding Image">
+    </div>
 
     <script src="js/index.js"></script>
     <script>

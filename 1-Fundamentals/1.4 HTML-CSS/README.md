@@ -70,8 +70,6 @@
 - Standard structure of a website
 - Validating form input with JavaScript
 - Website vs. Web App
-- Publish to Github Pages
-- Advanced CSS
 
 ### HTML Forms
 
@@ -138,8 +136,80 @@ If the information is not correctly formatted the user will get an error message
 | Generally static content | Dynamic content, user-driven interactions |
 | Display content | Enable actions, transactions, and completing user tasks |
 | View and read | View, read, and manipulate information |
+
+## 09/01/2025 - Advanced CSS & JS
+
+- Advanced CSS
+- Advanced JS
+- Publishing to Github Pages
+
+## Advanced CSS 
+
+### CSS Positioning
+
+- The CSS position property specifies the type of method used for positioning an element
+
+> To define an element position add the CSS property `position: <method>`
+
+1. static
+
+    - The default positioning for all elements
+    - It is positioned in the normal flow of the website
+
+    ```css
+    p {
+        position: static;
+    }
+    ```
+
+2. relative
+
+    - An element is positioned relative to its normal/natural position
+    - Setting the margin properties on ana element with the relative position  will cause it to be adjusted away from its normal position. Any other content around the element will not be adjusted to fit the gap left by the element
+
+    ```css
+    p {
+        left: 30px;
+        position: relative;
+    }
+    ```
+
+3. fixed
+
+    - Positioned relative to the viewport, which means it always stays in the same place even if the page is scrolled.
+    - It does not leave a gap in the page where it would normally have been positioned.
+    - The top, right, bottom and left properties are used to the position the element.
+
+    ```css
+    p {
+        position: fixed;
+        bottom: 0px;
+        right: 0px;
+    }
+    ```
+
+4. sticky
+
+    - Positioned based on the users scroll position.
+    - Toggles between `relative` and `fixed`, depending on the scroll position.
+    > NOTE: You must specify at least one of top, bottom, left, or right.
+
+    ```css
+    p {
+        position: sticky;
+        top: 0;
+    }
+    ```
+
+5. absolute
+
+### Grid Layout
+
+
+
+
  
 ### Extra Resources
 
-https://www.w3schools.com/
-https://developer.mozilla.org/en-US/
+- https://www.w3schools.com/
+- https://developer.mozilla.org/en-US/
