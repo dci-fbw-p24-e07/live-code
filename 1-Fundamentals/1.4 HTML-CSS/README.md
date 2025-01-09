@@ -205,7 +205,19 @@ If the information is not correctly formatted the user will get an error message
 
 ### Grid Layout
 
+- CCS Grid layout is a 2-dimensional layout system for the web.
+- It allows tom organize content into rows and columns.
+- When defining a grid it will only take effect when at least on of the dimensions has been specified.
+- In order to specify flexible columns with the grid use fractional values `fr`. These are flexible and distribute space proportionally on the display page.
+- In order to take care of the gaps between rows and columns you must use the `gap` property.
 
+    ```css
+    .container {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr 1fr;
+        gap: 20px;
+    }
+    ```
 
 
  
