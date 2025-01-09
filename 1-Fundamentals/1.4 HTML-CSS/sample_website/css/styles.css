@@ -24,3 +24,15 @@
     position: sticky;
     top: 0;
 }
+
+form:hover {
+    background-color: blue;
+}
+
+button {
+    letter-spacing: 1px;
+    cursor: pointer;
+    background-color: aliceblue;
+    text-transform: uppercase;
+    border: 2px solid;
+}

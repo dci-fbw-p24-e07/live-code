@@ -219,9 +219,91 @@ If the information is not correctly formatted the user will get an error message
     }
     ```
 
+### Adding effects using CSS
 
+- You can add effects that are implemented according to user interaction
+- You can add an effect by attaching to the desired CSS class, element or ID.
+- You can attach an effect by adding `:<effect-name>` as a separate CSS class
+
+    ```css
+    p {
+        background-color: red;
+    }
+
+    p:hover {
+        opacity: 1;
+    }
+
+    .new-class {
+        color: blue;
+    }
+
+    .new-class:hover {
+        color: red;
+    }
+    ```
+
+## Advanced JS
+
+- A webpage is created in 3 layers:
+
+1. HTML: is a markup that we use to structure and give meaning to our web content. e.g defining paragraphs, headings and tables.
+
+2. CSS: styling the HTML. e.g setting background colours, fonts and dividing the content into multiple columns.
+
+3. JavaScript: is scripting language that allows you to create dynamic updated content, control media and animate content.
+
+    ```html
+    <button type="button">Name</button>
+    ```
+
+    ```css
+    button {
+        letter-spacing: 1px;
+        cursor: pointer;
+        background-color: aliceblue;
+        text-transform: uppercase;
+        border: 2px solid;
+    }
+    ```
+
+    ```js
+    // Get hold of button element
+    const button = document.querySelector("button");
+
+    // Listen for a click on the button
+    button.addEventListener("click", updateName);
+
+    // Define updateName function
+    function updateName() {
+        // Ask user for input
+        const name = prompt("Enter a new name:");
+        // change the content of the button element
+        button.textContent = name;
+    }
+    ```
+
+## Deploying to GitHub Pages
+
+1. Ensure that the repo is active on GitHub.
+
+2. Navigate to the repository settings
+
+3. In the Code and Automation section click `Pages`
+
+4. Under "Build and Deployment" select `Deploy from a branch`
+
+5. Under "Build and deployment" use the branch dropdown menu to select the publishing source
+
+6. Optionally, you can use the folder dropdown to select a folder to publish from.
+
+7. Save
+
+8. In your browser navigate to `https://username.github.io/<repository-name>`
  
 ### Extra Resources
 
 - https://www.w3schools.com/
 - https://developer.mozilla.org/en-US/
+- https://docs.github.com/en/pages/getting-started-with-github-pages/creating-a-github-pages-site
+- https://docs.github.com/en/pages/getting-started-with-github-pages/configuring-a-publishing-source-for-your-github-pages-site

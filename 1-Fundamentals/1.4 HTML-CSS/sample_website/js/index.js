@@ -9,3 +9,17 @@ email.addEventListener("input", (event) => {
         email.setCustomValidity("");
     }
 });
+
+// Get hold of button element
+const button = document.querySelector("button");
+
+// Listen for a click on the button
+button.addEventListener("click", updateName);
+
+// Define updateName function
+function updateName() {
+    // Ask user for input
+    const name = prompt("Enter a new name:");
+    // change the content of the button element
+    button.textContent = name;
+}
