@@ -236,3 +236,242 @@
 
     print(first_name)
     ```
+
+## 16/01/2025 number system, variable size, relational operators
+
+- bits and bytes 
+- Measure variable size
+- Number system: binary vs. decimal
+- similarities and differences between binary and decimal
+- relational operators:
+    1. boolean logic and logical operators
+
+### Bits and Bytes 
+
+**Bit:**
+
+- a bit is the smallest unit of storage
+- Stores just a 0 or 1.
+- On the computer its just 0's and 1's
+- A bit is too small to be of much use
+- Group 8 bits together to make a 1 byte
+
+**Byte:**
+
+- Collection of 8 bits e.g `01011010`
+- One byte can store one character e.g 'A', 'x', '$'
+- 8 bits they can make 256 different patterns
+- one byte can hold a number between 0 and 255 
+- All storage is measured in bytes
+- Kilobyte(KB)- about 1 thousand bytes
+- Megabyte(MB) - about 1 million bytes
+- Gigabyte(GB) - about 1 billion bytes
+- Terabyte(TB) - about 1 trillion bytes
+
+### Measuring variable size 
+
+- To check a variables memory size we use the `getsizeof()` function from the `sys`
+- This function gives the number of bytes of memory space consumed by a variable
+
+    1. Import the `sys` module at the top of the file
+
+        ```python
+        import sys
+        ```
+
+    2. Use the `getsizeof()` function to measure a variables memory size
+
+        ```python
+        a = 1
+
+        sys.getsizeof(a)
+        ```
+
+### Number System
+
+- A number system is defined as a system to express numbers.
+- It is mathematical notation used to represent numbers of a given set by using digits or other symbols in a predefined/consistent manner.
+
+There are 4 types of common Number Systems:
+
+1. Decimal number system (base-10): 0,1,2,3,4,5,6,7,8,9
+2. Binary Number System (base-2): 0,1
+3. Octal Number System (base-8): 0,1,2,3,4,5,6,7
+4. Hexadecimal Number system (base-16): 0,1,2,3,4,5,6,7,a,b,c,d,e,f,g,h
+
+#### Binary Number system
+
+- Represented using the base-2 numeral system.
+- Consists of only 0 and 1
+- Each digit in binary is called a bit.
+
+**Binary to Decimal Manual Conversion Example:**
+
+to convert the binary `1010` to decimal we do the following these steps:
+
+1. We assign each digit a weight based on its position from right to left. The rightmost digit has a weight of 2^0, the next digit has a weight of 2^1, then 2^2 and lastly 2^3.
+
+2. Multiply each digit by its corresponding weight, meaning we go from right to left. We have 0 at the extreme right of the binary number so we will multiply 0 by 2^0 after that we have 1 in the binary number so we will multiply 1 by 2^1 and so on
+
+3. Sum up the results: (0 * 2^0) + (1 * 2^1) + (0 * 2^2) + (1 * 2^3)
+= 0 + 2 + 0 + 8 = 10
+
+4. Therefore the binary number `1010` is equal to the decimal number 10.
+
+**Python Approach: Decimal to Binary Conversion:**
+
+- The `bin()` function is used to convert decimal numbers to binary.
+- The result will be the binary form of a given number
+
+    ```python
+    decimal_num = 10
+    binary_num = bin(decimal_num)
+    print(binary_num)  # Result: 0b1010
+    ```
+
+    > `Ob` is a prefix written to indicate that the following number is a binary number. It serves as a visual indicator to differentiate binary numbers from other numerical representations.
+
+
+**Python Approach: Binary to Decimal Conversion:**
+
+- you can convert a binary to an integer using the `int()` function and specifying base 2.
+- Base 2 corresponds to the binary number
+
+    ```python
+    binary_num = "1010"
+    decimal_num = int(binary_num, 2)
+    print(decimal_num)  # Result: 10
+    ```
+
+**Similarities and Differences between binary and decimal:**
+
+| Criteria | Decimal Number System | Binary Number System |
+|----------|-----------------------|----------------------|
+| Definition | The number which has a whole number and the fractional part separated by a decimal point. | A number that expresses a representation in terms 0 and 1. |
+| Base | 10 | 2 |
+| Digits Used | 0,1,2,3,4,5,6,7,8,9 | 0,1 |
+| Usage | Everyday life and general arithmetic. | Computers and digital systems. |
+| Number Representation | More compact for the same values due to base 10 | Longer due to base 2 |
+| Calculation Method | Standard arithmetic operations | Binary arithmetic operations |
+
+
+### Relational Operators
+
+- Usually fall under:
+    1. Logical operators
+    2. Special operators:
+        - Identity operators
+        - Membership operators
+
+1. Logical operators:
+
+    - Used to check whether an expression is `True` or `False`.
+    - They are usd in decision making.
+
+    1. `and` - `Logical AND`
+
+        - Only translates to `True` **if and only if** both operands are `True`
+
+        ```python
+        a = True
+        b = False
+
+        print(a and b) # Result: False
+
+        c = True
+        d = True 
+        e = False
+
+        print( c and d and e) # Result: False
+
+        x = 3 > 2 # True
+        y = 4 < 7 # True
+
+        print(x and y) # Result: True
+        ```
+
+    2. `or` - `Logical OR`
+
+        - Translates to `True` if **at least one** of the operands is True
+
+        ```python
+        a = True
+        b = False
+
+        print(a or b) # Result: True
+
+        x = "hello" == "hello" # True
+        y = "Java" == "Python" # False
+
+        print(x or y) # Result: True
+
+        c = False
+        d = False
+
+        print(c or d) # Result: False
+        ```
+
+    3. `not` - `Logical NOT`
+
+        - Translates to `True` if the operand is `False` and vice-versa
+
+        ```python
+        a = True
+
+        print(not a)  # Result: False
+        ```        
+
+2. Special Operators
+
+    - Python offers some special operators like the identity operators and membership operators
+
+    1. Identity operators:
+
+        - In Python, `is` and `is not` are used to check if two values are located at the same memory location.
+
+        1. `is` 
+
+            - Translates to true if operands are identical(refer to the same object)
+
+            ```python
+            x = True
+
+            print(x is True) # Result: True
+            print(x is False) # Result: False
+            ```
+
+        2. `is not`
+
+            - Translates to `True` if the operands are not identical (do not refer to the same object)
+
+            ```python
+            y = False
+
+            print(y is not True) # Result: True
+            print(y is not False) # Result: False
+            ```
+
+    2. Membership operators
+
+        - In Python, `in` and `not in` are the membership operators.
+        - They are used to test whether a value or variable is found in a sequence (string, list, tuple, set and dictionary).
+
+        1. `in`
+
+            - Is `True` is a value/variable is found in the sequence
+
+            ```python
+            x = "a"
+
+            print(x in "Python") # Result: False
+            ```
+        
+        2. `not in`
+
+            - Is `True` if a variable/value is not found in a sequence.
+
+            ```python
+            y = "c"
+
+            print(y not in "JavaScript") # Result: False
+            ```
