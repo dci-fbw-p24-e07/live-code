@@ -778,6 +778,8 @@ def <function-name>():
         print("Hello World")
     ```
 
+    ![Declaring a function](https://www.programiz.com/sites/tutorial2program/files/create-function-python.png)
+
 #### Calling a function
 
 - Declaring a function does not make the function run. Meaning if the code is executed nothing will happen.
@@ -786,3 +788,5 @@ def <function-name>():
     ```python
     greet()
     ```
+
+    ![Calling a function](https://www.programiz.com/sites/tutorial2program/files/working-of-function-python.png)
