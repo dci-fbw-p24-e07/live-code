@@ -475,3 +475,314 @@ to convert the binary `1010` to decimal we do the following these steps:
 
             print(y not in "JavaScript") # Result: False
             ```
+
+##  17/07/2025 - Control Flow(Conditionals) and Intro to Functions
+
+- if statements
+- if else  statements
+- Nested if statements
+- for loop
+- the break and continue statements
+- Nested for loops
+- while loop
+- The pass statement
+- Functions:
+    - Creating a function
+    - Calling a function
+
+### `if` statement
+
+- The `if` is a conditional statement.
+- It isi used to execute a block of code only when a specific condition is met.
+
+- For example:
+
+    - Suppose we need to assign different grades to students based on their scores
+
+        1. If a student scores above 90, assign grade A 
+        2. If a student scores above 75, assign grade B 
+        3. If a student scores above 65, assign grade C
+
+**Syntax**
+
+```python
+if <condition>:
+    # code to be executed
+```
+
+![If Statement](https://www.programiz.com/sites/tutorial2program/files/python-if.png)
+
+- Condition is a statement that evaluates to a boolean result, either `True` or `False`
+- If the condition evaluates to `True`, the body of the if statement will be executed.
+- If the condition evaluates to `False` , the body of the if statement will be skipped from execution
+
+### Indentation in Python
+
+- Python uses indentation to define a block of code, such as the body of conditional statement, the body of a function, etc.
+- We usually use 4 spaces for indentation in Python
+
+### `if...else` statement
+
+- An if statement can have an optional `else` clause.
+- The `else` clause executes when the condition of the if statement evaluates to `False`
+
+    **Syntax**
+
+    ```python
+    if <condition>:
+        # body of if statement
+    else: 
+        # body of else statement
+    ```
+
+![If...Else](https://www.programiz.com/sites/tutorial2program/files/python-if-else.png)
+
+### `if...elif...else` statement
+
+
+- The `if...else` is used to execute a block of code among 2 alternatives
+- The `if...elif...else` is used to execute a block of code wen there is more than 2 alternatives
+
+    **Syntax**
+
+    ```python
+    if <condition1>:
+        # code block 1
+
+    elif <condition2>:
+        # code block 2
+
+    else:
+        # code block 3
+    ```
+
+![If...elif...else](https://www.programiz.com/sites/tutorial2program/files/python-elif.png)
+
+### Nested `if` statements
+
+- Including an if statement inside another if statement
+
+For example:
+
+- You have a party and you only want guest who are on your guest list. If they are on the guest list they must be wearing. If they are on the guest list and wearing white they must also bring a drink
+
+    ```python
+    guest_list = "Peter, John, Lucy, Mary, Max"
+
+    guest_name = input("What is your name?: ")
+
+    # outer if statement
+    if guest_name in guest_list:
+        print("Welcome!")
+        wearing_white = bool(input("Are you wearing white? (enter 'True' or 'False'):"))
+
+        # inner if statement 1
+        if wearing_white:
+            print("Thank you for sticking to the dress code!")
+            has_a_drink = bool(input("Did you bring a drink? (enter 'True' or 'False'):"))
+
+            # inner if statement 2
+            if has_a_drink:
+                print("Enjoy the party!")
+
+            # inner else statement 2
+            else:
+                print("Maybe bring a drink next time")
+
+        # inner else statement 1
+        else:
+            print("Respect the dress code next time")
+
+    # outer else statement
+    else:
+        print("Sorry! Not on the list.")
+    ```
+
+    ![Nested if](https://www.programiz.com/sites/tutorial2program/files/python-nested-if.png)
+
+### Loops
+
+- Repeat a block of code as long as a certain condition is met or has not been broken.
+
+1. `for` loop
+2. `while` loop
+
+#### 'for' loop
+
+- This is used to iterate over sequences such as strings, lists, dictionaries, etc.
+
+    **Syntax:**
+
+    ```python 
+    for value in sequence:
+        # run this code
+    ```
+
+    - The `for loop iterates over elements of a sequence in order, and in each iteration, the body of the loop is executed.
+    - The loop ends after the body of the loop is executed for the last time.
+
+    ```python
+    word = "Python"
+
+    # access each letter one by one
+    for letter in word:
+        print(letter)
+    ```
+
+    **`for` Loop with Python `range()`**
+
+    - `range(start, stop)` returns a sequence of numbers
+    - `start` - is the the number the sequence begins with
+    - `stop` - is the first number to not be included
+
+        ```python
+        # generate numbers from 0 to 3
+        values = range(0, 4)
+        ```
+
+    - We can use the `range()` function to iterate over a sequence of numbers
+
+        ```python
+        # iterate from i = 0 to i = 5
+        for i in range(0, 6):
+            print(i)
+        ```
+
+#### The break and continue statements
+
+1. `break`
+
+    - Terminates a loop immediately before loops through all the items
+
+    ```python
+    # Break the loop if the number is equal to 3
+    for i in range(0, 6):
+        if i == 3:
+            break
+        print(i)
+    ```
+
+    ![Break Statement](https://www.programiz.com/sites/tutorial2program/files/working-break-statement-python.png)
+
+2. `continue`
+
+    - Skips the current iteration of the loop and goes to the next iteration.
+
+    ```python
+    # Skip the number 4 and print the rest
+    for i in range(6):
+        if i == 4:
+            continue
+        print(i)
+    ```
+
+    ![Continue Statement](https://www.programiz.com/sites/tutorial2program/files/working-continue-statement-python.png)
+
+#### Nested `for` loops
+
+- A lop can contain another loop making them nested
+
+```python
+# Print all the different combinations of numbers and letter
+# They must go in sequence
+
+letters = "abcde"
+numbers = "12345"
+
+for letter in letters:
+    for number in numbers:
+        print(letter, number)
+
+    # This is outside the inner loop
+    print("-----")
+```
+
+##### Using a `for` loop without accesing sequence items
+
+- If we don't intend to use items of a sequence inside the body of a loop, it's clearer to use the `_` (underscore) as the loop variable.
+
+```python
+# iterate from i = 0 to i = 3
+for _ in range(4):
+    print("hi")
+```
+
+#### 'while` loop
+
+- Repeats a block of code until a certain condition is met.
+
+    **Syntax:**
+
+    ```python
+    while condition:
+        # body of the while loop
+    ```
+
+    1. The `while` loop evaluates the condition, which is a boolean expression.
+    2. If the condition is `True`, the body of the while loop is executed. The condition is evaluated agin.
+    3. The process continues until the condition is `False`
+    4. Once the condition evaluates to `False`, the loop terminates.
+
+    > Tip: We should update the variable used in the condition inside the loop so that eventually it evaluates to `False`. Otherwise we would create an infinite loop.
+
+    ```python
+    # print the current loop number
+    number = 0
+
+    while number <= 5:
+        print(number)
+        number += 1
+    ```
+
+    **Flowchart of a `while` loop:**
+
+    ![Flowchart of while loop](https://www.programiz.com/sites/tutorial2program/files/python-while-loop-flowchart.png)
+
+### The `pass` statement
+
+- The pass statement is a null statement that can be used as a placeholder for future code
+- Suppose we have a loop of function that is not implemented yet, but will be added in the future. We can use the pass statement for this
+
+    **Syntax:**
+
+    ```python
+    pass
+    ```
+
+    **For example:**
+
+    ```python
+    n = 7
+    if n > 5:
+        pass
+    ```
+
+### Functions
+
+- A block of code that performs a a specific task
+- It allows the reuse of code throughout the program
+
+#### Declaring a function
+
+- to declare a function we use the keyword `def` (define) followed by the name of the function and parentheses and a full colon
+
+```python
+def <function-name>():
+    # Function body
+```
+
+- Create a function called `greet` that prints the string "Hello World"
+
+    ```python
+    def greet():
+        print("Hello World")
+    ```
+
+#### Calling a function
+
+- Declaring a function does not make the function run. Meaning if the code is executed nothing will happen.
+- to utilize the function we would need to make a function call
+
+    ```python
+    greet()
+    ```
