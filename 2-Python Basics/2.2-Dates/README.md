@@ -248,3 +248,127 @@ date = datetime.date.fromtimestamp(13599465454)
         > You can find the full list of format codes at: [https://www.w3schools.com/python/python_datetime.asp](https://www.w3schools.com/python/python_datetime.asp)
 
     2. `strptime()`
+
+        - This functions 2 arguments:
+            1. a **string** representing date and time
+            2. format code equivalent to the first argument
+
+        ```python
+        from datetime import datetime
+
+        date_string = "22 December, 2022"
+
+        # use strptime() to create the date object
+        date_object = datetime.strptime(date_string, "%d %B, %Y") 
+        ```
+
+## 24.01.25 timedelta, timezones and the calendar module
+
+- what is timedelta
+- creating a timedelta object
+- difference two dates
+- Using the calendar module
+- Handling timezones
+
+### What is timedelta?
+
+- a `timedelta` object represents the difference between two dates or times.
+- gives the out output in days and hours, minutes and seconds
+
+#### Creating a timedelta object
+
+1. Using the `date` class
+
+    ```python
+    from datetime import date
+
+    # create 2 date objects
+    date_1 = date(year=2007, month=6, day=20)
+    date_2 = date(year=1965, month=3, day=4)
+    
+    # craeting the timedelta object
+    timedelta_obj = date_1 - date_2 # Output: 15448 days, 0:00:00
+    ```
+
+2. Using the `datetime` class
+
+    ```python
+    from datetime import datetime
+
+    # Create 2 datetime objects
+    date_3 = datetime(year=2024, month=12, day=19, hour=9, minute=45, second=23)
+    date_4 = datetime(year=2079, month=8, day=26, hour=15, minute=53, second=19)
+
+    # creating the timedelta object
+    timedelta_obj = date_3 - date_4
+
+    print(timedelta_obj) # Output: -19974 days, 17:52:04
+    ````
+
+3. using the `timedelta` class
+
+    ```python
+    from datetime import timedelta
+
+    # create 2 timedelta objects
+    t_1 = timedelta(weeks=64, days=6, hours=5, minutes=45, seconds=33)
+    t_2 = timedelta(days=100, hours=3, minutes=63, seconds=76)
+
+    result = t_1 - t_2
+    print(result) # Output: 354 days, 1:41:17
+    ```
+
+    **Using timedelta to get duration in seconds:**
+    - The timedelta class has a `total_seconds()` function.
+
+        ```python
+        from datetime import timedelta
+
+        t = timedelta(days=67, hours=23, minutes=15, seconds=45)
+
+        print(t.total_seconds()) # Output: 5872545.0
+        ```
+
+### Using the calendar module
+
+- Part of the built-in Python modules
+- The calendar module allows us to output calendars and provides additional useful functions related to the calendar. 
+- It uses the Gregorian calendar
+- By default it has Monday as the first day of the week and Sunday as the last
+
+    > You can find the documentation at: [https://docs.python.org/3/library/calendar.html](https://docs.python.org/3/library/calendar.html)
+
+
+    **Display the calendar of a given month**
+
+    ```python
+    import calendar
+    
+    year = 1992
+    month = 9
+
+    print(calendar.month(year, month))
+    ```
+
+### Handling timezones using `pytz` module
+
+- is a module that allows us to convert time between one timezone and the other
+
+    ```python
+    from datetime import datetime
+    import pytz
+
+    # get our local time
+    local = datetime.datetime.now()
+    print("Local time: ", local.strftime("%d/%m/%y, %H:%M"))
+
+    # use the pytz module to get the New York Timezone
+    ny_timezone = pytz.timezone("America/New_York")
+    datetime_ny = datetime.datetime.now(ny_timezone)
+    print("New York time: ", datetime_ny.strftime("%d/%m/%y, %H:%M"))
+
+    # get the time for London ("Europe/London")
+    lon_timezone = pytz.timezone("Europe/London")
+    datetime_lon = datetime.datetime.now(lon_timezone)
+    print("London time: ", datetime_lon.strftime("%d/%m/%y, %H:%M"))
+    ```
