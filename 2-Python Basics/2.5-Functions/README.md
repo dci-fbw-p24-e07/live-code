@@ -184,3 +184,173 @@ def generate_password(username: str = "John") -> str:
 
 print(generate_password("Elen"))
 ```
+
+## 13.02.25 - Advanced Functions & Scope
+
+- Arbitrary Arguments:
+    1. Positional `*args`
+    2. Keyworded `**kwargs`
+- Utilizing `*args` and `**kwargs` in the same function
+- Variable Scope
+- `global` keyword
+- Functions as a variable
+
+### Arbitrary Arguments
+
+1. **Positional:**
+
+    - Defined by putting the arguments in the correct order in which they are defined in the function.
+    - Python allows us to utilize unlimited arguments in cases where the exact number of arguments may not be known.
+    - We use the `*args` variable to define these.
+
+    **Syntax:**
+    ```python
+    def <function-name>(*args):
+        # Code to be executed
+        return <output-value>
+    ```
+
+    **Examples:**
+    ```python
+    # define a function to add all numbers given in the parameters
+    def adder(*args) -> int:
+        result = 0
+        # Loop over args tuple
+        for num in args:
+            result += num
+        return result
+
+    print(adder(5, 6, 7, 76, 4, 34, 56))
+
+    # Create a function called multipler that takes an 
+    # unknown number of arguments and multiplies all of them
+    def multiplier(*args) -> int:
+        result = 1
+        for num in args:
+            result *= num
+        return result
+
+    print(multiplier(2, 4, 5, 76, 89, 34))
+
+    # Passing an iterable as an argument
+    def create_user(*args):
+    for i in args:  # Looping over the tuple
+        for j in i:  # Looping over the dictionary
+            print(j)
+        
+    create_user({
+        "Name": "John",
+        "dob": "6 July 1976",
+        "Phone": "+345566776544"
+    })
+    ```
+
+    - `*args` allows us to pass a variable number of nonkeyworded(positional) arguments
+    - These arguments will be stored as a tuple and can be evaluated in the function as a tuple.
+    - When utilizing the variable inside the function it is called without the `*` asterisk.
+
+2. **Keyworded:**
+
+    - Defined by assigning a value directly to the parameter name when calling the function.
+    - Python allows us to utilize unlimited arguments in cases where the exact number of arguments may not be known.
+    - We use the `**kwargs` variable to define these.
+
+    **Examples:**
+    ```python
+    # Define a function to capture user information
+    def user_details(**kwargs):
+        for key, value in kwargs.items():
+            print(f"{key} is {value}")
+
+    user_details(first_name="Susan", l_name="Franklin")
+    user_details(first_name="John", l_name="Jones", age=36, country="New Guinea")
+    ```
+
+#### Utilizing `*args` and `**kwargs` in the same function
+
+```python
+
+# Function capture employee info
+def get_emp_details(*args, **kwargs):
+    details = {}
+    for key, value in kwargs.items():
+        details[key] = value
+        
+    details["projects"] = []
+    for i in args:
+        details["projects"].append(i)
+
+    return details
+
+print(get_emp_details("Oculus", "Elephant", "Meyer", first_name="Louis", last_name="Baker", age=45, email="lbaker@mail.com"))
+```
+
+- The `*args` should come first before the `**kwargs`
+- Positional arguments cannot be placed after a keyworded argument has already been stated
+
+### Variable Scope
+
+- Variable scope defines a region where we can access a variable
+- In  Python we define variables with 3 different scopes:
+    1. Local
+    2. Global
+    3. Nonlocal
+
+1. Local Variables
+    - When we declare a variable inside a function, these variables will have a local scope(within the function). We cannot access them outside the function.
+
+    ```python
+    def greet():
+    
+        # local variable
+        message = "Hello"
+        print("Local:", message)
+        
+    greet()
+
+    # Try to access outside of the function
+    print(message)  # Produces a NameError
+    ```
+
+2. Global Variables
+
+    - If we define a variable outside of function or in global scope it is known as a global variable.
+    - This means the variable cane be accessed inside or outside the function.
+
+    ```python
+    # Declare a global variable
+    message = "Hello"
+
+    def greet():
+        # access the variable
+        print("Local:", message)
+        
+    greet()
+    print("Global:", message)
+    ```
+
+3. Nonlocal variables
+    - In Python we use the `nonlocal` keyword inside a nested function to indicate that a variable is not local to the inner function, but rather belongs to an enclosing functions scope
+    - This allows you to modify a variable from the outer function within the nested function, while still keeping it distinct from global variables
+
+    ```python
+    # outside function 
+    def outer():
+        message = "local"
+        
+        # nested function
+        def inner():
+            
+            # declare the nonlocal variable 
+            nonlocal message
+            
+            message = "nonlocal"
+            print("inner func:", message)
+        
+        inner()
+        print("outer func:", message)
+        
+    outer()
+    ```
+
+
