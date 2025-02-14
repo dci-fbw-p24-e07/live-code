@@ -199,6 +199,76 @@ def crops_to_harvest_this_month():
             print(f"> {crop['name']}")
 
 
+# Challenge 3
+def is_container_friendly():
+    """
+    lists all crops that can be grown in containers.
+    """
+    print(" --- Crops that are container-friendly ---")
+    # Get list of crops
+    crops = data["crops"]
+    print("The following crops are container-friendly: ")
+    # Loop over each crop
+    for crop in crops:
+        # if crop is container-friendly
+        if crop["container_friendly"] is True:
+            # print the container friendly crops
+            print(f"> {crop['name']}")
+            
+
+# Challenge 4
+
+def crop_recommendation():
+    """ 
+    ask the user about their soil type and sunlight conditions 
+    and then recommend crops that match their garden environment.
+    """
+    print(" --- Crop Recommendations ---")
+    # ask user about soil type
+    soil_type = input("Enter your soil type: ").title()
+    # ask user about sunlight
+    sunlight = input("Enter your sunlight conditions (Full sun/Partial shade): ").capitalize()
+    print(sunlight)
+    # Get list of crops
+    crops = data["crops"]
+    
+    print("Crops suitable for your garden:")
+    # Loop over each crop
+    for crop in crops:
+        # Check if soil type and sunlight conditions match given input
+        if soil_type in crop["soil_type"] and sunlight == crop["sunlight"]:
+            # Print the matching crops
+            print(f"> {crop['name']}")
+
+
+# Challenge 5
+def crop_assistant():
+    """ 
+    search for a specific crop and view detailed growing advice, 
+    including watering needs and best companion plants.
+    """
+    # prompt user for crop name
+    crop_to_plant = input("Enter a crop name: ").capitalize()
+    # get list of crops
+    crops = data["crops"]
+    # TODO get crop from list of crops
+    # loop over crop list
+    for crop in crops:
+        # Check if crop name matches the given name
+        if crop["name"] == crop_to_plant:
+            # print out the crop advice
+            print(f"{crop['name']} ({crop['type']})")
+            print(f"> Planting season: {' - '.join(crop['planting_season'])}")
+            print(f"> Harvest season: {' - '.join(crop['harvest_season'])}")
+            print(f"> Soil type: {crop['soil_type']}")
+            print(f"> Sunlight: {crop['sunlight']}")
+            print(f"> Watering needs: {crop['watering_needs']}")
+            if crop['container_friendly']:
+                print("> Container-friendly: Yes")
+            else:
+                print("> Container-friendly: No")
+
+
 # --- Main Code Starts Here ---
 print("##############################")
 print("#         Allotment          #")
@@ -223,8 +293,8 @@ if option == "1":
 elif option == "2":
     crops_to_harvest_this_month()
 elif option == "3":
-    print("This option is not available yet!")
+    is_container_friendly()
 elif option == "4":
-    print("This option is not available yet!")
+    crop_recommendation()
 elif option == "5":
-    print("This option is not available yet!")
+    crop_assistant()

@@ -249,3 +249,9 @@ Tomato (Fruit)
 - Watering needs: Moderate
 - Container-friendly: Yes
 ```
+
+### Bonus challenges
+
+1. Make the program run until the user decides to exit
+2. Optimise challenge 5 to simplify the solution
+3. Add recommendations for crops that can be planted alongside the chosen crop in challenge 5
