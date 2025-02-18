@@ -353,4 +353,18 @@ print(get_emp_details("Oculus", "Elephant", "Meyer", first_name="Louis", last_na
     outer()
     ```
 
+## 18.02.25 - Decorators
+
+- What is a decorator?
+- Nested Functions
+- Passing functions as an argument
+- Usage of a decorator
+- Creating a decorator
+- Use cases for decorators
+
+### What is a decorator?
+
+-  a decorator is a design pattern that allows a user to add new functionality to an existing object. 
+- Decorators are typically applied to functions, and they enhance/modify the behaviour of functions.
+- Functions in Python support operations such as being passed as an argument, returned from a function, modified and being assigned to a variable.
 
