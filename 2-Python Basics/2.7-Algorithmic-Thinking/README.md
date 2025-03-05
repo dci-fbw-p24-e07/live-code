@@ -46,7 +46,6 @@ In the world of computing and data science, creating a good algorithm is a funda
 - **Documentation:** Good algorithms come with comprehensive documentation that outlines how the algorithm works, its limitations, and how to use it effectively. Well-documented algorithms are easier to use and integrate into different systems.
 - **Security:** In the current digital age, security is a paramount concern. A good algorithm should be designed with security in mind, ensuring that it protects sensitive data and resists attacks from malicious entities.
 
-
 ### Types of Algorithms in Programming
 
 1. **Sorting algorithms:** 
