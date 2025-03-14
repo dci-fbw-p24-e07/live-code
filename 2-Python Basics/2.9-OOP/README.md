@@ -10,7 +10,6 @@
 - Attributes/properties in a class
 - Methods in a class
 - Passing arguments to methods
-- Principles of OOP
 
 ### What is OOP?
 
