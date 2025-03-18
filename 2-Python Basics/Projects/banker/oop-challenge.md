@@ -1,14 +1,16 @@
 # The Bank Project
+
 1. Create a parent class called Bank:
 
     a. Create a class attribute that stores all account details
         { `account_number` : [ `name`, `account_balance`, `account_type` ] }
 
     b. In the constructor method:
-        i. Initialize bank_name: str
-        ii. Initialize name: str
-        iii. initialize account_balance: float
-        iv. initialize account_type: str
+
+        i. Initialize `bank_name`: str
+        ii. Initialize `name`: str
+        iii. initialize `account_balance`: float
+        iv. initialize `account_type`: str
 
     c. Create a method called `create_account` that takes name, `initial_deposit` and `account_type` as arguments and adds them to  accounts. Generate `account_number` using the random module.
 
