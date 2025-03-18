@@ -6,10 +6,17 @@ from tv import TV
 class TVParty:
 
     def __init__(self):
-        # TODO: Instantiate the TV object
-        tv = None
+        tv = TV()
 
-        # TODO: Your first code goes here
+        tv.turn_on()
+        tv.set_channel(3)
+        
+        tv.volume_up()
+        tv.volume_up()
+        tv.volume_up()
+        tv.volume_up()
+        tv.volume_up()
+        tv.volume_up()
 
         print(
             "Let's watch the Alien Movie. The TV is currently [" + tv.is_on() + "] and it should be [on]."
@@ -18,11 +25,15 @@ class TVParty:
             + str(tv.volume_level) + "]."
         )
 
-        # TODO: Food break! turn the tv off.
+        tv.turn_off()
 
         print("Food break! The TV should be [off], and it's currently [" + tv.is_on() + "].")
 
-        # TODO: Your second code goes here.
+        tv.turn_on()
+        tv.set_channel(95)
+        
+        tv.volume_down()
+        tv.volume_down()
 
         print(
             "Now let's watch the last season of Game of Thrones. The TV is currently [" + tv.is_on()

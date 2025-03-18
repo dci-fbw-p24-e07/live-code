@@ -7,19 +7,25 @@ class TV:
 
     def turn_on(self):
         """Turns the TV on."""
-        pass
+        self.turned_on = True
 
     def turn_off(self):
         """Turns the TV off."""
-        pass
+        self.turned_on = False
 
     def channel_up(self):
         """Scrolls the channel up."""
-        pass
+        if self.channel < 100:
+            self.channel += 1
+        else:
+            self.channel = 1
 
     def channel_down(self):
         """Scrolls the channel down."""
-        pass
+        if self.channel > 1:
+            self.channel -= 1
+        else:
+            self.channel = 100
 
     def set_channel(self, new_channel: int):
         """
@@ -27,15 +33,18 @@ class TV:
 
         :param int new_channel: The new channel
         """
-        pass
+        if new_channel >= 1 and new_channel <= 100:
+            self.channel = new_channel
 
     def volume_up(self):
         """Increases the volume."""
-        pass
+        if self.volume_level < 10:
+            self.volume_level += 1
 
     def volume_down(self):
         """Decreases the volume."""
-        pass
+        if self.volume_level > 1:
+            self.volume_level -= 1
 
     def is_on(self):
         """Returns 'on' when the TV is on and otherwise 'off'."""
