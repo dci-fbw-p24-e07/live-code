@@ -295,3 +295,224 @@ audi.forward()
 mazda.reverse()
 audi.refuel(35)
 ```
+
+## 19.03.25 - OOP Principles and methods overriding in inheritance
+
+- The pillars of OOP:
+    1. Inheritance
+    2. Encapsulation
+    3. Polymorphism
+    4. Abstraction
+- Method overriding with inheritance
+- How to override methods
+- Tips on successful usage of OOP
+
+### The pillars/principles of OOP
+
+1. **Inheritance**
+
+    - A way of creating a new class using details(code) from an existing class without modifying it.
+    - The existing class is known as the parent(base) class
+    - The newly class is known as the child(derived) class.
+    - The child class can always be extended to have extra methods or attributes that may not be available in the parent class.
+    - Any changes made on the parent will be effected on the child class. While changes made on the child class will just count as an extension on the child class.
+    - Inheritance allows us to create objects that share code or logic yet are different.
+
+    - In Python, we inherit by placing the name of the parent in parentheses after the name of the child class.
+
+        ```python
+        # Parent/Base class
+        class Animal:
+            
+            def __init__(self, name):
+                self.name = name
+                
+            def eat(self):
+                print("I am eating.")
+                
+            def sleep(self):
+                print("I am sleeping")
+                
+
+        # Child/Derived class
+        class Dog(Animal):
+                
+            def bark(self):
+                print("Woof woof!")
+                
+        # Create object from animal class
+        animal1 = Animal("Frost")       
+        animal1.eat()
+
+        # Create an object from the dog class
+        dog1 = Dog("Jack")
+        dog1.sleep()
+        dog1.bark()
+        ```
+
+    **Multiple Inheritance:**
+
+    - A class can be derived from more than one class.
+    - This is achieved by placing the names of the parent classes in parentheses separated by commas(`,`) after the name of the child class.
+    - The order in which the classes are inherited is very important.
+    - If the parent classes have a method with the same name a technique known as MRO (Method Resolution Order) is used to determine which method should be inherited.
+    - MRO specifies that the leftmost parent class' method will be inherited.
+
+        ```python
+        # Parent/Base class
+        class Animal:
+            
+            def __init__(self, name):
+                self.name = name
+                
+            def eat(self):
+                print("I am eating.")
+                
+            def sleep(self):
+                print("I am sleeping")
+
+        class Mammal:
+            
+            def give_birth(self):
+                print("My child is fully-formed")
+                
+            def eat(self):
+                print("I am eating as a mammal")
+            
+            
+        class Cat(Mammal, Animal):
+            pass
+
+
+        garfield = Cat("Garfield")
+        garfield.eat()
+        garfield.sleep()
+        garfield.give_birth()
+        ```
+
+    **Multi-level Inheritance**
+
+    - This is achieved when you create a child class from another child class.
+
+        ```python
+        # Parent/Base class
+        class Animal:
+            
+            def __init__(self, name):
+                self.name = name
+                
+            def eat(self):
+                print("I am eating.")
+                
+            def sleep(self):
+                print("I am sleeping")
+                
+
+        # Child/Derived class
+        class Dog(Animal):
+                
+            def bark(self):
+                print("Woof woof!")
+                
+        class Puppy(Dog):
+            pass
+
+        puppy1 = Puppy("Sparkie")
+        puppy1.eat()
+        puppy1.sleep()
+        puppy1.bark()
+        ```
+
+
+
+2. **Encapsulation**
+
+    - Refers to the bundling of attributes and methods inside a single class.
+    - It prevents outer classes from accessing and changing attributes and methods.
+    - Also known as data hiding
+    - Encapsulation seeks to hide the implementation details of objects from the outside. 
+    - Itb states that all the important information is contained within the object - only selected data is available externally.
+    - The inner workings are stored privately within the specified class
+    - This provides security and control over object state changes, reduces risks of errors and makes the program more understandable.
+    - In Python we denote private attributes/methods using underscore(`_`) as the prefix: i.e single `_` or double `__`
+
+        ```python
+        class Product:
+    
+            def __init__(self):
+                self.__max_price = 1000
+                self._discount = 0.1
+            
+            def sell(self):
+                if self._discount:
+                    price = self.__max_price - (self.__max_price * self._discount)
+                    print(f"We are selling for {price}")
+                    
+                else:
+                    print(f"We are selling for {self.__max_price}")
+            
+            # Setter methods
+            def set_max_price(self, new_price):
+                self.__max_price = new_price
+                
+            def set_discount(self, new_discount):
+                self._discount = new_discount
+                
+                
+        radio = Product()
+
+        radio.sell()
+        # Using the setter function
+        radio.set_max_price(2000)
+        radio.sell()
+        ```
+
+3. **Polymorphism**
+
+    - Simply means more than one form.
+    - The same entity(method, operator or object) can perform different operations in different scenarios.
+    - It complements inheritance by allowing different classes to perform actions with the same name but using different code.
+    - In order for Polymorphism to be achieved inheritance needs to be implemented.
+    - This is sometimes also known a s method overriding
+
+        ```python
+        class Vehicle:
+    
+            def refuel(self, litres):
+                print(f"Refuelling with {litres} litres of fuel")
+                
+
+        class Truck(Vehicle):
+            
+            def refuel(self, litres):
+                print(f"Refuelling with {litres} of Diesel.")
+
+            
+        class Bicycle(Vehicle):
+            
+            def refuel(self):
+                print("I do not need fuel")
+
+
+        vehicle_1 = Vehicle()
+        vehicle_1.refuel(30)
+
+        volvo_truck = Truck()
+        volvo_truck.refuel(40)
+        ```
+
+4. **Abstraction**
+
+    - Abstraction can be thought of as an expansion of encapsulation.
+    - Each object only reveals a specific mechanism for usage.
+    - It hides complex implementation details while just showing users the most crucial data and functions
+    - In Python we can achieve abstraction by using abstract base classes which can be created using the `abc` (abstract base class) module and the `@abstractmethod` of the `abc` module.
+
+
+### Tips for successful usage of OOP
+
+1. Aim for simplicity and efficiency when designing OOP code.
+2. Adhere to SOLID principles to prevent problems and keep code flexible, maintainable and easy to modify.
+3. Identify the classes needed and their relationships to ensure programs function efficiently.
+4. Employ abstraction to simplify understanding
+5. Abide by programming standards and conventions to ensure code quality and maintainability.

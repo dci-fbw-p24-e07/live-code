@@ -26,7 +26,7 @@ class TVParty:
         )
 
         tv.turn_off()
-
+ 
         print("Food break! The TV should be [off], and it's currently [" + tv.is_on() + "].")
 
         tv.turn_on()
