@@ -508,7 +508,6 @@ audi.refuel(35)
     - It hides complex implementation details while just showing users the most crucial data and functions
     - In Python we can achieve abstraction by using abstract base classes which can be created using the `abc` (abstract base class) module and the `@abstractmethod` of the `abc` module.
 
-
 ### Tips for successful usage of OOP
 
 1. Aim for simplicity and efficiency when designing OOP code.
@@ -516,3 +515,194 @@ audi.refuel(35)
 3. Identify the classes needed and their relationships to ensure programs function efficiently.
 4. Employ abstraction to simplify understanding
 5. Abide by programming standards and conventions to ensure code quality and maintainability.
+
+## 20.03.25 - Types of methods, creating/using getters & setters
+
+- Encapsulation in Python
+- Different types of OOP methods:
+    1. Instance method
+    2. Class methods
+    3. Static methods
+- Public vs. Protected vs. Private attributes
+- Creating and using getters & setter
+
+### Encapsulation in Python
+
+- In other OOP languages such Java or C++ encapsulation is strictly enforced with access modifiers such as `public`, `private` or `protected`
+
+| Feature | Python | Java | C++ |
+|---------|--------|------|-----|
+| Access modifiers | No enforced modifiers; uses naming conventions: `_protected` or `__private` | Enforced access modifiers with `public`, `private` or `protected` keywords | Enforced access modifiers with `public`, `private` or `protected` keywords |
+| Getter/setter methods | Optional, often used with `@property` decorator for controlled access | Common practice, typically implemented as methods | Common practice, typically implemented as methods |
+| Data Access | Accessible via naming conventions; relies on developer discipline | Controlled by access modifiers; enforced by compiler | Controlled by access modifiers; enforced by compiler |
+| Philosophy | "We are all adults here" - relies on conventions and trust | Strict enforcement of access control | Strict enforcement of access control | 
+
+### Types of methods
+
+- These are functions attached to a class or object.
+- These define the actions that an object can perform
+- They come in 3 basic categories:
+
+1. **Instance methods**
+
+    - The most common type of method.
+    - They operate on a specific instance(object) of a class and have access to instance attributes using the `self` parameter
+
+        ```python
+        class Employee:
+    
+            def __init__(self, name):
+                self.name = name
+
+            # Instance method
+            def greet(self):
+                print(f"Hi, my name is {self.name} and I am new.")
+
+            
+        lisa = Employee("Lisa")
+        lisa.greet() # Output: Hi, my name is Lisa and I am new.
+        ```
+
+2. **Class methods**
+
+    - These are methods that are bound to the class itself.
+    - They can access and modify class-level attributes using the `cls` parameter.
+    - They are defined using the `@classmethod` decorator.
+
+        ```python
+        class Employee:
+    
+            hybrid = True
+            
+            def __init__(self, name):
+                self.name = name
+
+            # Class method
+            @classmethod
+            def get_hybrid(cls):
+                return cls.hybrid
+            
+            @classmethod
+            def set_hybrid(cls):
+                cls.hybrid = False
+
+            
+        lisa = Employee("Lisa")
+        lisa.set_hybrid()
+        print(lisa.get_hybrid())
+        ```
+
+3. **Static methods**
+
+    - These are not bound to either instance or class.
+    - They essentially there for organizational purposes within the class
+    - They do not have have access to either `self` or `cls` so they cannot modify attributes.
+    - They defined using the `@staticmethod` decorator.
+
+        ```python
+        class Employee:
+            
+            hybrid = True
+            
+            def __init__(self, name):
+                self.name = name
+                
+            # Static method
+            @staticmethod
+            def generate_passcode():
+                return randint(1000, 9999999)
+
+            
+        lisa = Employee("Lisa")
+        print(lisa.generate_passcode())
+        ```
+
+### Public vs Protected vs. Private attributes - Access modifiers
+
+| Convention | Description | Example |
+|------------|-------------|---------|
+|  Public | Default access level; attributes and methods are accessible from outside the class | `self.attribute` |
+| Protected | Indicated by a single underscore; a convention to denote partially restricted access. | `self._attribute` |
+| Private | Indicated by double underscores; name mangling provides limited access restriction | `self.__attribute` | 
+
+### Creating/Using getters and setters
+
+- Getters and setters are methods created to give access to protected or private attributes without directly accessing them
+
+**Using the `@property` decorator:**
+
+```python
+class Rectangle:
+    
+    def __init__(self, width, height):
+        self.__width = width
+        self.__height = height
+        
+    @property
+    def height(self):
+        return self.__height
+        
+rectangle_1 = Rectangle(10, 6)
+print(rectangle_1.height)
+rectangle_1.height = 8 # Output: AttributeError: can't set attribute 'height'
+print(rectangle_1.height)
+```
+
+- Using the `@property` only produces a getter by default.
+- It then allows you to access the private attribute as if it were a normal public attribute
+- Trying to set a value without creating a setter will result in an `AttributeError`
+
+**Creating a setter:**
+
+```python
+class Rectangle:
+    
+    def __init__(self, width, height):
+        self.__width = width
+        self.__height = height
+        
+    @property
+    def height(self):
+        return self.__height
+    
+    # Creating a setter
+    @height.setter
+    def height(self, new_height):
+        self.__height = new_height
+    
+    @property
+    def width(self):
+        return self.__width
+        
+rectangle_1 = Rectangle(10, 6)
+print(rectangle_1.height) # Output: 6
+rectangle_1.height += 8
+print(rectangle_1.height) # Output: 14
+```
+
+- To create a setter we would put a decorator with the name `@<getter-name>.setter` on the setter method (The getter being the method decorated with `@property`)
+- This would allow modifying the attribute using normal assignment operations
+
+**Defining getters**
+
+```python
+class Rectangle:
+    
+    def __init__(self, width, height):
+        self.__width = width
+        self.__height = height
+    
+    @property
+    def width(self):
+        return self.__width
+    
+    @width.getter
+    def width(self):
+        return f"The width is {self.__width}"
+        
+rectangle_1 = Rectangle(10, 6)
+print(rectangle_1.width) # Output: The width is 10
+```
+
+- When a getter is explicitly defined it overrides the result of previous method defined with the `@property` decorator
+- It is only useful in scenarios where you want to create some specific behaviour on the getter.
