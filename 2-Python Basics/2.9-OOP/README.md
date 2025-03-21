@@ -706,3 +706,132 @@ print(rectangle_1.width) # Output: The width is 10
 
 - When a getter is explicitly defined it overrides the result of previous method defined with the `@property` decorator
 - It is only useful in scenarios where you want to create some specific behaviour on the getter.
+
+## 21.03.25 - Abstract Base Classes and Mixins
+
+- what is an Abstract Class?
+- Defining an Abstract Base Class
+- The `abc` module
+- What are Mixins?
+- Implementing Mixins
+
+### What is an Abstract Class?
+
+- Is like a template for other classes
+- It defines methods that must be included in any class that inherits from it, but it doesn't provide the actual code for those methods.
+- some describe it as a recipe without specific ingredients - it tells you what steps follow but the details depend on the subclass.
+
+**Why use abstract classes in Python?**
+
+1. **Enforce method implementation:** An abstract class's methods function as a contract, requiring each subclass to implement its own version. This lowers the possibility of inconsistent or lacking implementations by ensuring specific functionality is present across all derived classes.
+2. **Encourages code reuse:** abstract classes can have both concrete methods(implement actual functionality) and abstract methods(templates). The concrete greatly reduce code duplication and encourage the DRY(Do not Repeat Yourself) principle by providing shared functionality that can be inherited by all subclasses.
+3. **Improve readability and maintainability:** Abstract classes help developers comprehend the structure and functionality of the software by providing a consistent and transparent framework. This structure makes the code easier to maintain by enforcing design principles like single responsibility and separation of responsibilities.
+4. **Encourages polymorphism:** Abstract classes make it possible to write general code that works well with a variety of subclasses. Developers can create functions or methods that can handle any subclass of the abstract class thanks to the flexibility. This also increases code extensibility and adaptability to changes in future.
+
+### Creating Abstract Classes in Python and the `abc` module
+
+- The `abc` module in Python is used to implement abstract classes.
+- This module offers tools to create these classes: `@abstractmethod` decorator and `ABC` class
+- By using the decorator it ensures that each method must be implemented in the subclass
+- In order to create a Abstract Base Class in Python you must inherit the `ABC` class provided by the `abc` module
+
+    ```python
+    # Import the abc module
+    from abc import ABC, abstractmethod
+
+
+    # Create an abstract class
+    class Shape(ABC):  # inherit ABC class
+        
+        @abstractmethod
+        def area(self):
+            pass
+        
+        @abstractmethod
+        def perimeter(self):
+            pass
+        
+        # Concrete method
+        def shape_name(self):
+            print("I am a shape")
+            
+
+    class Circle(Shape):
+        
+        def __init__(self, radius):
+            self.radius = radius
+
+        def area(self):
+            return 3.142 * self.radius ** 2
+        
+        def perimeter(self):
+            return 2 * 3.142 * self.radius
+        
+            
+    circle_1 = Circle(10.7)
+    circle_1.shape_name()  # Output: I am a shape
+    print(circle_1.perimeter()) # Output: 67.2388
+    ```
+
+    - Instantiating an object from a derived class that does not implement the abstract methods will raise an error
+
+    ```python
+    class Rectangle(Shape):
+    
+    def __init__(self, width, height):
+        self.width = width
+        self.height = height
+        
+    # Missing area and perimeter implementation
+    
+    
+    # This will raise an error      
+    rectangle_1  = Rectangle(10.4, 5.7)  # Output: TypeError: Can't instantiate abstract class Rectangle with abstract methods area, perimeter
+    ```
+
+#### Challenge:
+
+- Create an abstract called `Vehicle` that has 2 abstract methods of your choice and one concrete method of your choice. Add 2 attributes `model` and `mileage`
+- Create 2 concrete subclasses from the abstract class
+- Instantiate 1 object from each subclass
+
+### Mixins
+
+- A mixin is a class that provides method implementation for reuse by multiple related child classes. 
+- A mixin is not intended for direct instantiation
+- It bundles together a set of methods meant for reuse. Each mixin should have a single specific goal implementing closely related methods
+- Typically a child class will use multiple inheritance to combine mixin classes
+- Since Python does not outline a specific/formal way to define mixin classes it is good practice to name the mixin classes with the suffix `Mixin`
+- The same rules for multiple will still apply especially with Method Resolution Order
+
+    ```python
+    class TelephoneMixin:
+    
+    # Concrete methods
+    def dial_number(self, number):
+        return f"Calling: {number}"
+    
+    
+    class SMSMixin:
+        
+        def send_message(self, number, message):
+            return f"To: {number}. \n Message: {message}"
+
+
+    class VoIPPhone(TelephoneMixin, SMSMixin):
+        
+        def __init__(self, phone_number):
+            self.phone_number = phone_number
+            self.airtime = 0
+            
+        def topup(self, amount):
+            self.airtime += amount
+
+
+    phone_1 = VoIPPhone("+2579875323553")
+    print(phone_1.send_message("+679999876755", "Hey there buddy!"))
+    ```
+
+
+
+
