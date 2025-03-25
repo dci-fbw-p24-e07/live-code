@@ -709,7 +709,8 @@ print(rectangle_1.width) # Output: The width is 10
 
 ## 21.03.25 - Abstract Base Classes and Mixins
 
-- what is an Abstract Class?
+- What is an Abstract Class?
+- Why use abstract classes in Python?
 - Defining an Abstract Base Class
 - The `abc` module
 - What are Mixins?
@@ -832,6 +833,116 @@ print(rectangle_1.width) # Output: The width is 10
     print(phone_1.send_message("+679999876755", "Hey there buddy!"))
     ```
 
+## 25.03.25 - Dunder/Magic methods
+
+- What are dunder methods?
+- Implementing dunder methods
+- Common examples:
+    1. `__init__()`
+    2. `__add__()`
+    3. `__len__()`
+    4. `__str__()`
+
+### What are Dunder/Magic methods?
+
+- These are special predefined methods that have two underscore prefixes and two underscore suffixes: `__method__`
+- The methods are used in the case of operator overloading(They provide extended meaning beyond the predefined meaning of the operator)
+- dunder methods can be better understood by visualizing a contract between your implementation and the Python interpreter. a contract usually has certain actions performed behind the scenes under given circumstances.
+- The methods are invoked internally from the class based on a certain condition or action.
+- Some dunder methods do not have a default implementation so they may raise errors when you try certain operations on those classes.
+
+
+1. `__init__()`
+
+    ```python
+    class Car:
+    
+        # Instantiate an object
+        def __init__(self, model):
+            self.model = model
+
+    
+    car_1 = Car("Ford Mondeo")
+    print(car_1)
+    ```
+
+2. `__str__()`
+
+    - Used when representing an object as a string
+    - Always returns a string
+    
+
+        ```python
+        class Car:
+    
+            # Instantiate an object
+            def __init__(self, model, mileage):
+                self.model = model
+                self.mileage = mileage
+            
+            # Define the string representation of an object
+            def __str__(self):
+                return str(f"{self.model} with {self.mileage} on the clock")
+
+        
+        car_1 = Car("Ford Mondeo", 2000)
+        print(car_1)  # Output: Ford Mondeo with 2000 on the clock
+        car_2 = Car("Volvo V40", 7000)
+        print(car_2)  # Output: Volvo V40 with 7000 on the clock
+        ```
+
+3. `__add__()`
+
+    - Performs the addition of specified attributes of the objects. 
+
+    ```python
+    class Distance:
+    
+        def __init__(self, x=None, y=None):
+            self.feet = x
+            self.inches = y
+        
+        def __add__(self, x):  # (dist_1, dist_2)
+            # Create temporary distance
+            # Placeholder object to store the results
+            temp = Distance()
+            # Add the feet attributes from both objects
+            temp.feet = self.feet + x.feet
+            # Add the inches attributes from both objects
+            temp.inches = self.inches + x.inches
+            if temp.inches >= 12:
+                temp.feet += 1
+                temp.inches -= 12
+            return temp
+        
+        
+    dist_1 = Distance(10, 4)
+    dist_2 = Distance(16, 6)
+    dist_3 = dist_1 + dist_2
+    print(dist_3.feet)
+    ```
+
+4. `__len__()`
+
+    - Is called when `len()` is invoked on ana object
+
+        ```python
+        class Car:
+            
+            # Instantiate an object
+            def __init__(self, model, mileage):
+                self.model = model
+                self.mileage = mileage
+
+            def __len__(self):
+                letter_cnt = 0
+                for letter in self.model:
+                    letter_cnt += 1
+                return letter_cnt
+                    
+        
+        car_1 = Car("Ford Mondeo", 2000)
+        print(len(car_1))
 
 
 
