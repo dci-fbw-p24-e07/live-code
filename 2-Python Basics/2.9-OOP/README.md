@@ -851,6 +851,8 @@ print(rectangle_1.width) # Output: The width is 10
 - The methods are invoked internally from the class based on a certain condition or action.
 - Some dunder methods do not have a default implementation so they may raise errors when you try certain operations on those classes.
 
+> You can find a full list of all the dunder methods Python has to offer at: [https://www.pythonmorsels.com/every-dunder-method/](https://www.pythonmorsels.com/every-dunder-method/)
+
 
 1. `__init__()`
 
