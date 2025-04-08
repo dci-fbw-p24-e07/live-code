@@ -945,6 +945,7 @@ print(rectangle_1.width) # Output: The width is 10
         
         car_1 = Car("Ford Mondeo", 2000)
         print(len(car_1))
+        ```
 
 
 
