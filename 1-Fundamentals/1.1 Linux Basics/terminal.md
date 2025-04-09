@@ -33,3 +33,27 @@ Exercise
 - cat
 - nano
 - less
+
+## Updating your Linux Packages
+
+- Check for available updates
+
+    ```shell
+    sudo apt list -–upgradable
+    ```
+
+- Simulate what would happen if you ran an upgrade
+
+    ```shell
+    sudo apt-get --simulate upgrade
+    ```
+
+- Run updates
+
+    ```shell
+    sudo apt upgrade
+
+    # Or
+
+    sudo apt-get upgrade
+    ```
