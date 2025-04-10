@@ -16,6 +16,7 @@ def parse_input(user_input):
     try:
         num1 = float(num1)
         num2 = float(num2)
+        
     except ValueError:
         raise MathematicalError("The first and third inputs must be numbers")
     
