@@ -204,3 +204,18 @@ When writing unit tests in Python, it’s important to follow best practices to 
 7. **Continuous Integration (CI)**: Integrate your unit tests into a continuous integration (CI) system that automatically runs the tests whenever changes are made to the codebase. This helps catch regressions early and ensures that the tests are executed consistently and regularly.
 8. **Regular Test Maintenance**: Update and maintain your tests as your code evolves. Review and revise tests periodically to ensure their effectiveness and relevance.
 
+## 11.04.25 - TDD and Fixtures
+
+- Using TDD to document code
+- Using the `setUp()` and `tearDown()` methods
+- Testing OOP
+
+### The Aquarium 
+
+- A company has tasked with creating a program to manage their aquarium. The aquarium has various tanks that can hold multiple type of fish. Each tank is only supposed a maximum of 10 fish. But you can have different kinds of fish in the same tank. The owner also wants the program to give them alerts on when a tank is full of water or it is empty. Tanks must always have water, the program should be able to trigger the refilling of a tank. The main thing that program should be able to track is when fish are being added to a tank
+
+Requirements:
+1. add_fish_to_tank(list_of_fish) - maximum fish should be 10 per tank, if it exceeds raise exception
+2. fiill_with_water() - set attribute has water to True
+
+
