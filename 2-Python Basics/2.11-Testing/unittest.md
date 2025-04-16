@@ -215,7 +215,72 @@ When writing unit tests in Python, it’s important to follow best practices to 
 - A company has tasked with creating a program to manage their aquarium. The aquarium has various tanks that can hold multiple type of fish. Each tank is only supposed a maximum of 10 fish. But you can have different kinds of fish in the same tank. The owner also wants the program to give them alerts on when a tank is full of water or it is empty. Tanks must always have water, the program should be able to trigger the refilling of a tank. The main thing that program should be able to track is when fish are being added to a tank
 
 Requirements:
+
 1. add_fish_to_tank(list_of_fish) - maximum fish should be 10 per tank, if it exceeds raise exception
 2. fiill_with_water() - set attribute has water to True
+
+## 16.04.25 - Mocking and Stubbing
+
+- What is mocking?
+- What is stubbing?
+- Key differences between mocking and stubbing
+- Implementing Mocking using the `unittest` module
+- Mock vs MagicMock
+
+### What is mocking?
+
+- Mocking is a technique used to replace the real object or functions with mock objects or functions during testing.
+- This allows us to simulate the behaviour of the code blocks without actually making permanent changes or side effects on the program. 
+- Mocking allows you to isolate the code under test and control the behaviour of external dependencies, such as external services, databases or functions that have side effects, without actually invoking them.
+
+### What is stubbing?
+
+- Stubs take the place of the code in the unit that is being tested.
+- It allows the developer to manipulate the response or result so that the unit can be safely tested in various contexts.
+
+#### Mocking vs Stubbing
+
+|     | Stubs | Mocks |
+|-----|-------|-------|
+| Primary Purpose | Mimic behaviour of real components with predetermined responses. | Record and validate interactions between the object under test and its collaborators | 
+| Characteristics | <li>Predictable outcomes</li> <li> Don't throw exceptions</li> <li>Simulate specific situations</li> | <li> Observers and validators</li> <li>Raise excptions for unexpected calls</li> <li>Verifies method call order and frequency</li> |
+| Use Cases | Testing outcomes without considering interactions | Ensuring method calls and interactions occur as expected |
+| Testing Focus | State Testing: Focusing on outcomes | Behaviour Testing: Emphasizing component interactions. |
+
+### Implementing Mocking using the `unittest` module
+
+1. Import the `unittest` module
+
+    ```python 
+    import unittest
+
+    # Or 
+
+    from unittest import Mock, MagicMock
+    ```
+
+2. Create mock objects
+
+    ```python
+    # Created a basic mock object
+    mock_obj = Mock()
+
+    # Creating a MagicMock object that behaves like a real object
+    magic_mock_obj = unittest.MagicMock()
+    ```
+
+**Example:**
+
+- We have a program that mainly interacts with files. It creates, updates, deletes and can any other manipulations like copying or moving the files. 
+- In this scenario we want to test whether or not the deletion function (`rm`) actually works but we want to avoid the side effect of actual files being deleted.
+
+### Mock vs MagicMock
+
+|   | Mock | MagicMock |
+|---|------|-----------|
+| Magic/Dunder methods | Does not include implementations for magic methods by default. You have to define the explicitly | Includes the default implementations for most magic methods. |
+| Usage | Use when mocking regular methods and attributes | Use when you want to mock an object that relies heavily on the magic methods |
+| When to use | <li>You are testing interactions with standard methods and attributes</li> <li>You want more control over what is mocked and avoid unintended behaviour from automatically mocked magic methods</li> | <li>You need to mock an object that uses magic methods extensively(e.g objects implementing custom behaviour for operations like `__add__`, `__str__`,`__getitem__`, etc)</li> <li>You prefer convenience and reduced boilerpalte for setting up such mocks</li> |
+
 
 
