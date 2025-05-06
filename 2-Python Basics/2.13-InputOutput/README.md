@@ -157,3 +157,99 @@ with open("dummy.txt", "w") as file:
 | `tell()` | Returns an integer that represents the current position of the file's object | 
 | `write(s)` | Writes string to a file. Where `s` represents the string to be written |
 | `writelines(lines)` | writes a `list` of lines to the file |
+
+## 06.05.25 - File manipulation with the `os` and `io` modules
+
+- What is file manipulation?
+- The `os` module
+- File operations using the `os` module
+
+**Self Study:**
+
+- What is the `io` module?
+- using the `StringIO` class of the `os` module
+- using the `BytesIO` class of the `os` module
+
+### What is file manipulation?
+
+- This is changing the files properties(location, size, etc) or contents
+- Files can be created, edited, opened, deleted, moved, copied, etc.
+
+### The `os` module
+
+- This module allows you to interact with your operating system in the form of Python code
+- It can be used for more than just file manipulation and operations
+- It is part of the Python standard library
+- It independent of operating system - it can be utilised by MasOS, Linux or Windows.
+- To use the `os` module we need simply import it to our source code
+
+### File operations
+
+1. Getting the current directory:
+
+    ```python
+    import os
+
+    curr_dir = os.getcwd()
+    ```
+
+    - It returns the Current Working Directory in form of a string
+    - It returns the full path of where you have run the command from
+
+2. Changing the directory:
+
+    ```python
+    os.chdir("<path>")
+    ```
+
+    - It changes the Current Working Directory to the path you have specified
+    - Does not return any value
+
+3. List Directories and Files
+
+    - all files and directories inside a directory can be retrieved using the `listdir()` method
+    - This method also takes a path to represent the directory you want to list
+
+    ```python
+    os.listdir("<path>:optional")
+    ```
+
+    - It returns all files and directories as strings inside a list
+
+4. Making a new directory:
+
+    - The `mkdir()` method is used to create a new directory.
+    - If the full path is not specified, the new directory will be created in the current working directory
+
+    ```python
+    os.mkdir("<new-directory-name>")
+    ```
+
+5. Removing a file or directory:
+
+    1. To delete a file:
+
+        - The `remove()` method can be used to delete file by giving the file path
+
+        ```python
+        os.remove("<filepath>")
+        ```
+    
+    2. To delete an empty directory:
+
+        - The `rmdir()` method is used to delete an empty directory with the specified path
+
+        ```python
+        os.rmdir("<path>")
+        ```
+
+    3. To delete a non-empty directory:
+
+        - The `rmtree()` method from the `shutil` module can be used to delete a specified non-empty directory and all of its contents
+
+        ```python
+        import shutil
+
+        shutil.rmtree("<path>")
+        ```
+
