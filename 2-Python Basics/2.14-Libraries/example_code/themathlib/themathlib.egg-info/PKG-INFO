@@ -1,0 +1,17 @@
+Metadata-Version: 2.4
+Name: themathlib
+Version: 0.0.1
+Summary: A simple package with basic math operations and example geometric operations
+Author: Mason Mapfundematsva
+Author-email: mason.mapfundematsva-freelancer@digitalcareerinstitute.org
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.6
+License-File: LICENSE.txt
+Dynamic: author
+Dynamic: author-email
+Dynamic: classifier
+Dynamic: license-file
+Dynamic: requires-python
+Dynamic: summary

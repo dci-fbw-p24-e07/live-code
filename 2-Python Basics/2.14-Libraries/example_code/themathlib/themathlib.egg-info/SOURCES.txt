@@ -1,0 +1,11 @@
+LICENSE.txt
+README.md
+pyproject.toml
+setup.py
+mathlib/__init__.py
+mathlib/geometry.py
+mathlib/operations.py
+themathlib.egg-info/PKG-INFO
+themathlib.egg-info/SOURCES.txt
+themathlib.egg-info/dependency_links.txt
+themathlib.egg-info/top_level.txt
