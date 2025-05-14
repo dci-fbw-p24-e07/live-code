@@ -5,7 +5,6 @@ Summary: A simple package with basic math operations and example geometric opera
 Author: Mason Mapfundematsva
 Author-email: mason.mapfundematsva-freelancer@digitalcareerinstitute.org
 Classifier: Programming Language :: Python :: 3
-Classifier: License :: OSI Approved :: MIT License
 Classifier: Operating System :: OS Independent
 Requires-Python: >=3.6
 License-File: LICENSE.txt

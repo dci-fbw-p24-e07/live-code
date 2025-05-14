@@ -473,9 +473,100 @@ def rectangle_area(width, height):
 
 4. Then you can install your package
 
+## 14.05.25 - parsing arguments from the command line
+
+- What are command line arguments?
+- `sys.argv` module
+- Handling arguments in a script
+
+### What are command line arguments?
+
+- Allow users to pass information to a Python script.
+- Could be anything from file names and configurations to flags that alter the script's behaviour.
+- Makes scripts flexible and reusable, enabling the automation of various tasks
+
+There are 3 main ways to handle command line arguments:
+
+1. `sys.argv` - A simple way to handle command line arguments as a list of strings.
+2. `getopt` - a built-in module for parsing command line options and arguments in a structured way.
+3. `argparse` - An advanced and flexible module that provides built-validation, help messages and better argument handling.
+
+#### `sys.argv`
+
+- `sys.argv` is a list that stores command line arguments passed to a Python script.
+- The first element (`sys.argv[0]`) always represents the script name
+- The remaining elements are the actual arguments provided to the script.
+- These arguments are always treated as strings, so they may need to be converted to the appropriate data type
+- The `.argv` list is part of the built-in `sys` module
+
+**Example:**
+
+```python
+""" 
+Script to calculate the numbers provided by the user from the 
+command line.
+Usage: `python3 calc_1.py <operation> <num1> <num2>`
+"""
+import sys
+
+arguments = sys.argv  # List of arguments
 
 
+num1 = int(arguments[2])
+num2 = int(arguments[3])
 
+# Check for the operation
+if arguments[1] == "-multiply" or arguments[1] == "-m":
+    print(num1 * num2)
+elif arguments[1] == "-add":
+    print(num1 + num2)
+elif arguments[1] == "-subtract":
+    print(num1 - num2)
+elif arguments[1] == "-divide":
+    print(num1 / num2)
+```
 
+#### using `argparse`
+
+**Syntax:**
+
+```python
+import argparse
+```
+
+1. Creating the parser object
+
+    ```python
+    parser = argparse.ArgumentParser(description="Short description")
+    ```
+
+    - The description text will be using the `--help` flag
+
+2. Creating a positional argument:
+
+    ```python
+    parser.add_argument("<name-of-arg>", help="Descriptionof positional argument")
+    ```
+
+    - A positional argument must be provided when running the script
+    - `help` will be shown in `--help`
+
+3. Creating an optional argument
+
+    ```python
+    parser.add_argument("-o", "--optional", help="Description of the optional argument")
+    ```
+
+4. Parse the command line arguments:
+
+    ```python
+    args = parser.parse_args()
+    args.optional
+    ```
+
+    - Will a namespace with the arguments as attributes
+    - The attributes can called using the verbose flag name
+
+    
 
 
