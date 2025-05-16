@@ -234,9 +234,31 @@
         - Ensure there are no duplicate entries
         - Make sure not to create circular relationships
 
+### Installing PostgreSQL
 
+1. Update the local package index:
 
+    ```shell
+    sudo apt update
+    ```
 
+2. Install the Postgres package along with the `-contrib` package that adds some extra utilities and functionality:
+
+    ```shell
+    sudo apt install postgresql postgresql-contrib
+    ```
+
+3. Ensure that the server is running using the `systemctl start` command:
+
+    ```shell
+    sudo systemctl start postgresql.service
+    ```
+
+4. Check the status of the server:
+
+    ```shell
+    sudo systemctl status postgresql.service
+    ```
 
 
 
