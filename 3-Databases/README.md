@@ -107,3 +107,145 @@
         - You can recover data from a failed transaction
         - Ensures that data changes are permanent
 
+## 16.05.25 - Relational Modeling
+
+- What is a relational model?
+- Key Terms in Relational Models
+- Examples of Models
+- Primary Keys
+- Foreign Keys
+- Constraints
+- Referential Integrity
+
+### What is a relational model?
+
+- Is an approach to logically represent and manage the data stored in a database
+- The data is organized into a collection to tow-dimensional inter-related tables, also known as relations.
+- Each relation is a collection of columns and rows, where the column represents the attributes of an entity and rows(tuples) represent the records.
+- The use tables makes it straightforward, efficient and flexible to store and access structured information.
+
+#### Key Terms in Relational Models
+
+1. Attribute: Are the properties that define an entity.
+    - Example: `employee_id`, `email_address`, `dept`, etc
+
+2. Relation Schema: Sometimes known simply a Schema. Defines the structure of the relation and represents the name of the relation with its attributes.
+    - Example: `student(student_id, name, address, phone, email, age, class)`
+
+3. Tuple: Represents a row in a relation. Each tuple contains a set of attribute values that describe a particular entity.
+    - Example: `(134, "Jason", "49 Waller Avenue", "+12334545232", "jason@school.com", 28, "CS50")`
+
+4. Column: Represents a set of values for a particular attribute(field)
+    - Example: When you extract the column `phone` from `student`
+
+5. NULL values: This is a value which is not known or unavailable. It is represented by `NULL`
+    - Example: The `age` field of a `student` having `student_id` 176 is `NULL`
+
+6. Relation Instance: The set of tuples of a relation at a particular instance of time. It can change whenever there is an insertion, deletion or update to the database.
+
+7. Degree: The number of attributes in the relation.
+    - Example: Table `student` has a degree of 7.
+
+8. Cardinality: The number of tuples in a relation.
+    - Example: The `student` table has a cardinality of 35.
+
+### Example Models
+
+- Create a `student` table that has the following attributes/fields:
+    1. `student_id`
+    2. `name`
+    3. `address`
+    4. `phone`
+    5. `email`
+    6. `age`
+    7. `class`
+
+    ![Students UML](example_imgs/students_uml.png)
+
+    ![Students Table](example_imgs/students_model.png)
+
+### Keys in Relational Models
+
+1. Primary Key:
+    - Identifies each tuple in a relation.
+    - It must contain unique values
+    - It must not be `NULL`
+    - It is usually best to let the database handle generation of Primary Keys when you insert records
+    - Example: `student_id` is the primary key in the `student` table.
+
+2. Foreign Key:
+    - an attribute in one relation that refers to the primary key of another relation
+    - It establishes relationships between tables.
+    - Example: `class_id` in the `students`table that link the class table
+
+    ![Foreign Key](example_imgs/foreign_key.png)
+
+### Constraints in Relational Models
+
+- Constraints are conditions that we define when creating the database.
+- These conditions need to be upheld when interacting with the database
+- They are checked before performing any CRUD(Create, Read, Update, Delete) operation 
+- If any constraint is violated the operation will fail
+
+1. Domain Constraints:
+
+    - Ensures that the value of each attribute in a tuple must be an atomic value derived from its specific domain.
+    - Domains are defined by the data types associated with attributes/fields
+    - Common data types include:
+        1. Numeric Types: 
+            - Integers(short, regular, long) for whole numbers
+            - Real numbers(float, double-precision) for decimal values
+
+        2. Character types:
+            - Fixed-length(CHAR)
+            - Variable-length (VARCHAR, TEXT) used for storing text data of various sizes
+
+        3. Boolean Values: 
+            - Stores True or False
+            - Often used for flags or conditional checks
+
+        4. Specialized Types:
+            - date(DATE)
+            - time(TIME)
+            - timestamp(TIMESTAMP)
+            - money(MONEY)
+            - used for precise handling of time-related and financial data
+
+2. Key Integrity:
+
+    - Every relation in the database should have at least one attribute that defines the tuple uniquely.
+    - That attribute is called a key
+    - Keys have 2 main constraints:
+        1. It should unique for all tuples
+        2. It can't have `NULL` values
+
+3. Referential Integrity:
+
+    - When one attribute/field can only take values from another attribute/field, either from the same table or from a different table
+    - It dictates that there must be only one primary key value for a foreign key
+    - Referential integrity is usually violated when:
+        - Primary keys are not properly enforced
+        - Foreign keys are not properly enforced
+        - Database design is incorrect
+
+    - To ensure referential integrity we must:
+        - Create primary and foreign keys for each table
+        - Ensure that the data types for the primary and foreign keys are matching
+        - Ensure there are no duplicate entries
+        - Make sure not to create circular relationships
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
