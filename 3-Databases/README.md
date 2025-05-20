@@ -107,7 +107,7 @@
         - You can recover data from a failed transaction
         - Ensures that data changes are permanent
 
-## 16.05.25 - Relational Modeling
+## 16.05.25 - Relational Modeling and Installing PostgreSQL
 
 - What is a relational model?
 - Key Terms in Relational Models
@@ -116,6 +116,7 @@
 - Foreign Keys
 - Constraints
 - Referential Integrity
+- PostgreSQL basic install
 
 ### What is a relational model?
 
@@ -163,6 +164,22 @@
     ![Students UML](example_imgs/students_uml.png)
 
     ![Students Table](example_imgs/students_model.png)
+
+    ```sql
+    CREATE DATABASE school;
+
+    -- Connect to the database before creating tables
+
+    CREATE TABLE students(
+        student_id SERIAL PRIMARY KEY,
+        full_name CHAR(100),
+        address TEXT,
+        phone VARCHAR(15),
+        email_address VARCHAR,
+        age INT,
+        class VARCHAR(100)
+        );
+    ```
 
 ### Keys in Relational Models
 
@@ -260,8 +277,51 @@
     sudo systemctl status postgresql.service
     ```
 
+### Installing DBeaver
 
+You can find the DBeaver download options at this link: [https://dbeaver.io/download/](https://dbeaver.io/download/)
 
+- Install on Linux using the `snap` command:
+
+    ```shell
+    sudo snap install dbeaver-ce
+    ```
+
+#### Default Postgres Settings on DBeaver
+
+Host: localhost
+Port: 5432
+Database: postgres
+Username: postgres
+Password: postgres or ""
+
+> In case the password authentication fails login to the `psql` prompt and change the password. Use the new password to connect on DBeaver.
+
+### Structured Query Language (SQL)
+
+- This is a programming language for storing and processing information in a relational database.
+- It is used for the common CRUD(Create, Read, Update, Delete) and also has some extra features to control the manipulation of data.
+- SQL is broken up into 4 main categories:
+
+1. DDL(Data Definition Language)
+    - Commands that can be used for definign, altering and deleting database structures such as tables, indexes, schemas, etc.
+    - It simply deals with the descriptions of the database schema and is used to create and modify the structure of a database
+
+    | Command | Description | Syntax |
+    |---------|-------------|--------|
+    | `CREATE` | Create databases or its objects(table, functions, indexes, views, store procedures and triggers) | `CREATE TABLE <table_name>(column1 data_type, column2 data_type, ...);` |
+    | `DROP` | Deletes objects from the database or the database itself | `DROP TABLE <table-name>;` |
+    | `ALTER` | Change the structure of the database | `ALTER TABLE <table-name> ADD <column_name> <data-type>;` |
+    | `TRUNCATE` | Remove all records from a table, including all spaces allocated for the records | `TRUNCATE TABLE <table_name>;` |
+
+2. DQL (Data Querying Language)
+3. DML (Data Manipulation Language)
+4. DCL (Data Control Language)
+
+##### PostgreSQL Cheatsheets
+
+- https://gist.github.com/Kartones/dd3ff5ec5ea238d4c546
+- https://neon.tech/postgresql/postgresql-cheat-sheet
 
 
 
