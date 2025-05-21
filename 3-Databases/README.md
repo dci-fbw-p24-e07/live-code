@@ -315,10 +315,152 @@ Password: postgres or ""
     | `TRUNCATE` | Remove all records from a table, including all spaces allocated for the records | `TRUNCATE TABLE <table_name>;` |
 
 2. DQL (Data Querying Language)
-3. DML (Data Manipulation Language)
-4. DCL (Data Control Language)
+    - Used for performing  queries on the data within schema objects.
+    - It's purpose is to get some scherma relation based on the query passed to it.
+    - When `SELECT` is run against a database table or tables the result is compiled into a further temporary table.
 
-##### PostgreSQL Cheatsheets
+    | Command | Description | Syntax |
+    |---------|-------------|--------|
+    | `SELECT` | Is used to retrieve data from the database | `SELECT column1, column2, ... FROM table_name WHERE condition;` |
+
+3. DML (Data Manipulation Language)
+    - These commands deal with the manipulation of data present in the database. 
+    - Tis group includes most of the SQL statements and can sometimes be grouped together with DCL.
+
+    | Command | Description | Syntax |
+    |---------|-------------|--------|
+    | `INSERT` | Initially create/insert data into a table | `INSERT INTO <table-name>(column1, column2, ...) VALUES (value1, value2, ....), (value1, value2,...);` |
+    | `UPDATE` | Update/edit existing data within a table | `UPDATE <table-name> SET column1 = value1, column2 = value2 WHERE condition;` |
+    | `DELETE` | Deletes a record(s) from a database table | `DELETE FROM <table-name> WHERE condition;` |
+
+4. DCL (Data Control Language)
+    - Mainly deal with rights, permissions and privileges and other controls of the database system.
+    - They control access to the database by granting or revoking permissions.
+
+    | Command | Description | Syntax |
+    |---------|-------------|--------|
+    | `GRANT` | Assigns new privileges to a user account, allowing access to specific objects, databases, functions, or actions | `GRANT <privilege-type> [(column_list)] ON <object-type> <object-name> TO <username> [WITH GRANT OPTION];` | 
+    | `REVOKE` | Removes previously granted privileges from a user account, taking away their access to certain database objects or actions | `REVOKE [GRANT OPTION FOR] <privilege-type> [(column_list)] ON [object-type] object-name FROM user [CASCADE];` |
+
+## 21.05.25 - Using DDL, DML and DQL
+
+- Creating a database
+- Adding tables to the database
+- Insert data into database tables
+- Query data from database
+- Update data in the database
+
+**Scenario:**
+
+- A supermarket has approached to design their database to store the products they sell and also keep track of inventory. The owner wants to know the names, prices and stock levels of all prices. You may include any other information that you may see as relevant to your database design.
+
+**Important questions when designing a DB:**
+
+1. What kind of information are you going to store?
+2. What properties does this information have?
+3. What type of data does each of these properties contain?
+
+### Creating a database
+
+```sql
+CREATE DATABASE e07_store;
+```
+
+### Creating tables
+
+1. Products table
+
+    - id: primary key
+    - name: varchar
+    - brand: varchar
+    - price: float
+    - quantity: int
+    - category: varchar
+
+    ```sql
+    -- Create products table
+    CREATE TABLE products (
+        product_id SERIAL PRIMARY KEY,
+        product_name VARCHAR,
+        brand VARCHAR,
+        price FLOAT,
+        quantity INT,
+        category VARCHAR
+    );
+    ```
+
+2. Suppliers table
+
+    - id: primary key
+    - name: varchar
+    - address: varchar
+    - phone: varchar
+    - email: varchar
+    - contact_person: varchar
+    - product_name: varchar
+    - active: bool 
+
+    ```sql
+    -- Create suppliers table
+    CREATE TABLE suppliers (
+        supplier_id SERIAL PRIMARY KEY,
+        supplier_name VARCHAR,
+        product_name VARCHAR,
+        contact_name VARCHAR,
+        contact_email VARCHAR,
+        contact_phone VARCHAR,
+        address VARCHAR,
+        city VARCHAR,
+        state VARCHAR,
+        postal_code VARCHAR,
+        country VARCHAR,
+        is_active BOOL
+    );
+    ```
+
+### Inserting data into tables
+
+```sql
+INSERT INTO <table-name>(<column1>, column2, ...)
+VALUES (value1, value2, ...);
+
+-- OR 
+
+INSERT INTO <table-name>(*) 
+VALUES (value1, value2, ...);
+```
+
+- VALUES is the keyword telling PostgreSQL about the data you wish to insert.
+- After the VALUES keyword, specify a comma-separated list of tuples with the corresponding values for the columns mentioned.
+
+```sql
+-- Insert data into the Products table
+INSERT INTO products(
+	product_name, brand, price, quantity, category)
+VALUES
+	('MacBook Pro', 'Apple', 2500.00, 100, 'Laptops'),
+	('Zenbook', 'Asus', 2000.00, 75, 'Laptops'),
+	('Galaxy 25 Edge', 'Samsung', 1100.00, 200, 'Smartphones');
+
+-- Insert 5 records into the suppliers table
+
+INSERT INTO suppliers(supplier_name, product_name, contact_name, contact_email, contact_phone, address, city, state, postal_code, country, is_active)
+VALUES
+	('Microsoft', 'Windows', 'Bill Gates', 'bill@microsoft.com', '+1321654987', 'New York road 45', 'New York', 'Washington', '1234', 'America', TRUE),
+	('Apple', 'Mac', 'Bob Jones', 'bob@apple.com', '+1123456789', 'Graphite road 2', 'Missisippi', 'State 17', '5432', 'America', TRUE),
+	('Samsung', 'Galaxy', 'Won Fang', 'won@samsung.com', '+5395148624', 'Tontan road 7', 'Tokyo', 'JP1', 't8651', 'Japan', TRUE);
+```
+
+
+
+
+
+
+
+
+
+
+#### PostgreSQL Cheatsheets
 
 - https://gist.github.com/Kartones/dd3ff5ec5ea238d4c546
 - https://neon.tech/postgresql/postgresql-cheat-sheet
