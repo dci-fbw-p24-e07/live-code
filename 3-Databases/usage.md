@@ -27,3 +27,10 @@
 ```sql
 ALTER USER postgres PASSWORD '<new-password>';
 ```
+
+**Run an existing sql script:**
+
+```sql
+\i '<path-to-sql-script>'
+```
+

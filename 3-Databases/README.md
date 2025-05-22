@@ -451,14 +451,150 @@ VALUES
 	('Samsung', 'Galaxy', 'Won Fang', 'won@samsung.com', '+5395148624', 'Tontan road 7', 'Tokyo', 'JP1', 't8651', 'Japan', TRUE);
 ```
 
+### Retrieving data from the database
 
+- This is where DQL is used.
+- In order to get information from the database we use the `SELECT` command.
+- The results from the `SELECT` can be enhanced by using clauses within the command. For example `WHERE`, `ORDER BY`, `FILTER`, etc.
 
+1. Select all data from the products table
 
+    ```sql
+    SELECT * FROM products;
+    ```
 
+2. Select the product_name and price from the products table
 
+    ```sql
+    SELECT product_name, price FROM products;
+    ```
 
+3. Select the supplier_name and contact_phone from the suppliers table
 
+    ```sql
+    SELECT supplier_name, contact_phone FROM suppliers;
+    ```
 
+4. Select all products where the price is greater than 2000
+
+    ```sql
+    SELECT * FROM products
+    WHERE price > 2000;
+    ```
+
+### Updating data in the database
+
+- In order to update/edit information in the database we use the `UPDATE` command paired with the `WHERE` clause
+- The number of records updated in one go should e limited to the very specific that you would like to update.
+- Just like the `DELETE` command the update has a lot of power over data.
+
+1. Update the product_name to MacBook Air and the price to 2100 where the product_id = 1
+
+    ```sql
+    UPDATE products SET product_name = 'MacBook Air', price = 2100.00
+    WHERE product_id = 1;
+    ```
+
+2. Update the country to Korea in the suppliers table where supplier_name = Samsung
+
+    ```sql
+    UPDATE suppliers SET country = 'Korea' 
+    WHERE supplier_name = 'Samsung';
+    ```
+
+3. Update the quantity to 5 if the product_name = Galaxy 25 Edge
+
+    ```sql
+    UPDATE products SET quantity = 5 WHERE product_name = 'Galaxy 25 Edge';
+    ```
+
+## 22.05.25 - Logical operations and conditionals in DQL
+
+- `WHERE` clause
+- Common Logical operators
+- Basic Usage of Logical operators
+- Combining Logical operators
+- Run an existing SQL script from `psql`
+
+### `WHERE` clause
+
+- The `WHERE` clause is used to narrow down records using conditional statements
+- It uses regular logical operators to compare conditions.
+- It is mainly used with DQL and DML, specifically `SELECT`, `UPDATE`, `DELETE`
+- It uses the condition filter rows returned from the command
+- Evaluates to either True or False
+- The query will return only the rows that make the condition evaluate to true in a result set.
+
+**Common Logical Operators:**
+
+| Operator | Description |
+|----------|-------------|
+| `ALL` | True if all of a set of comparisons are True |
+| `AND` | True if all conditions separated by AND are True | 
+| `ANY` | True if any of the set of comparisons is are True |
+| `BETWEEN` | True if the operand lies within the range of comparisons | 
+| `EXISTS` | True if a subquery returns one or more records |
+| `IN` | True if the operand is equal to one of a list of expressions |
+| `LIKE` |  True if the operand matches a pattern |
+| `NOT` | Reverses the value of any other Boolean operator |
+| `OR` | True if any of the conditions separated OR is True |
+| `IS NULL` | True if the expression value is `NULL` |
+
+#### `AND` operator
+
+- The SQL ANd operator is used to combine multiple conditions in a `WHERE` clause.
+- Allowing you to retrieve rows meeting all specified conditions
+
+**Usage:**
+
+```sql
+SELECT * FROM <table-name>
+WHERE <condition-1> AND <condition-2>;
+
+-- Select all employees whose age is less than 25 and salary is greater than 2000
+SELECT * FROM employees WHERE age < 25 AND salary > 2000;
+```
+
+#### `BETWEEN` operator
+
+- This operator is used to filter data within a specified range of values
+- The range of values should be of the same data type
+- Usually reserved for dates and numbers
+- Is inclusive of the upper bound/limit
+
+**Usage:**
+
+```sql
+SELECT * FROM <table-name>
+WHERE <field/attribute> BETWEEN <lower-limit> AND <upper-limit>;
+
+-- Select all employees between the ages of 25 and 35
+SELECT * FROM employees 
+WHERE age BETWEEN 25 AND 35;
+
+-- Select name and age from employees with salaries ranging from 2000 to 8500
+SELECT name, age FROM employees 
+WHERE salary BETWEEN 2000 AND 8500;
+```
+
+#### `EXISTS` operator
+
+- This is used to verify whether a particular record exists in an SQL table
+- While using this operator we need to specify the record (which we want to check for existence) as a subquery.
+- It is used in the `WHERE` clause to filter results based on the existence of rows in the subquery
+- The `EXISTS` operator returns True if subquery returns at least one row, otherwise, False.
+
+**Usage:**
+
+```sql
+SELECT * FROM <table-name>
+WHERE EXISTS (<subquery>);
+
+-- Select name, address and salary from employees where the age is 25
+SELECT name, address, salary 
+FROM employees 
+WHERE EXISTS (SELECT * FROM employees WHERE age BETWEEN 25 AND 35);
+```
 
 #### PostgreSQL Cheatsheets
 
