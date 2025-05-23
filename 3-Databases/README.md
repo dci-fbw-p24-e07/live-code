@@ -596,6 +596,409 @@ FROM employees
 WHERE EXISTS (SELECT * FROM employees WHERE age BETWEEN 25 AND 35);
 ```
 
+## 23.05.25 - Postgresql Data Types and Relationships
+
+- Data Types in Postgresql:
+    1. Numeric Data Types
+    2. Character Data Types
+    3. Time-related Data Types
+    4. Boolean Data Types
+    5. Array Data Types
+    6. Composite Data Types
+    7. Special Data Types
+- Creating Relationships through Foreign Keys
+
+### Data Types in Postgresql
+
+- PostgreSQL has all the standard RBDMS data types, and then some.
+- While creating tables, for each column, you specify a data type, i.e., what kind of data you want to store in the table fields.
+- This enables several benefits:
+
+    - *Consistency* − Operations against columns of same data type give consistent results and are usually the fastest.
+    - *Validation* − Proper use of data types implies format validation of data and rejection of data outside the scope of data type.
+    - *Compactness* − As a column can store a single type of value, it is stored in a compact way.
+    - *Performance* − Proper use of data types gives the most efficient storage of data. The values stored can be processed quickly, which enhances the performance.
+
+- PostgreSQL supports a wide set of Data Types.
+- Users can create their own custom data type using `CREATE TYPE` SQL command
+- There are different categories of data types in PostgreSQL:
+
+    1. Numeric Data Types
+
+        1. **Integer data types**:
+
+            - The most commonly used integer types are:
+                1. `SMALLINT`: This is a 2-byte signed integer, with a range of -32768 to +32767.
+                2. `INTEGER`: This is a 4-byte signed integer, with a range of -2147483648 to +2147483647.
+                3. `BIGINT`: This is an 8-byte signed integer, with a range of -9223372036854775808 to +9223372036854775807.
+
+                **Example:**
+
+                ```sql
+                CREATE TABLE employees (
+                    id INTEGER PRIMARY KEY,
+                    name TEXT,
+                    age INTEGER,
+                    salary NUMERIC(10, 2)
+                );
+                ```
+
+        2. **Floating-point data types**:
+
+            - PostgreSQL provides two floating-point data types:
+                1. `FLOAT` is a 4-byte floating-point number.
+                2. `DOUBLE PRECISION` is an 8-byte floating-point number.
+
+                **Example:**
+
+                ```sql
+                CREATE TABLE products (
+                    id SERIAL PRIMARY KEY,
+                    name TEXT,
+                    price DOUBLE PRECISION
+                );
+                ```
+
+        3. **Decimal data types**:
+
+            - There are two decimal data types: 
+                1. `NUMERIC`
+                2. `DECIMAL` 
+            - These types are used to store numbers with a fixed number of digits before and after the decimal point.
+            - The difference between the two types is that `DECIMAL` is an alias for `NUMERIC`, but with different default precision and scale values.
+
+                **Example:**
+
+                ```sql
+                CREATE TABLE orders (
+                    id SERIAL PRIMARY KEY,
+                    customer TEXT,
+                    amount NUMERIC(10, 2)
+                );
+                ```
+
+        4. **Serial data types**:
+
+            - Serial is a shorthand notation for creating an auto-incrementing integer column. 
+            - When you create a column with the `SERIAL` data type, PostgreSQL will automatically create a sequence object to generate the next value for the column.
+
+                **Example:**
+
+                ```sql
+                CREATE TABLE users (
+                    id SERIAL PRIMARY KEY,
+                    username TEXT,
+                    password TEXT
+                );
+                ```
+
+    2. Character Data Types
+
+        1. **`CHAR` data type**:
+
+            - The char data type stores fixed-length character strings. 
+            - When defining a column with the char data type, you must specify the length of the string.
+
+                **Example:**
+
+                ```sql
+                CREATE TABLE employees (
+                    employee_id serial PRIMARY KEY,
+                    last_name char(20),
+                    first_name varchar(20),
+                    hire_date date
+                );
+                ```
+
+        2. **`VARCHAR` data type**:
+
+            - The varchar data type stores variable-length character strings. 
+            - When defining a column with the varchar data type, you must specify the maximum length of the string. 
+
+                **Example:**
+
+                ```sql
+                CREATE TABLE customers (
+                    customer_id serial PRIMARY KEY,
+                    first_name varchar(20),
+                    last_name varchar(20),
+                    email varchar(50),
+                    phone varchar(15)
+                );
+                ```
+
+        3. **`TEXT` data type**:
+
+            - The text data type stores long strings of text with no specified length limit.
+
+                **Example:**
+
+                ```sql
+                CREATE TABLE products (
+                    product_id serial PRIMARY KEY,
+                    product_name varchar(50),
+                    description text,
+                    price decimal(8,2)
+                );
+                ```
+
+    3. Time-related Data Types
+
+        1. **`DATE` data type**:
+            - The date data type is used to store dates in the format of `YYYY-MM-DD`. 
+
+                **Example:**
+
+                ```sql
+                CREATE TABLE orders (
+                    order_id serial PRIMARY KEY,
+                    order_date date,
+                    customer_id int,
+                    product_id int,
+                    quantity int,
+                    total decimal(8,2)
+                );
+                ```
+
+        2. **`TIME` data type**:
+            - The time data type stores the time of day in the format of `HH:MI:SS`.
+
+                **Example:**
+
+                ```sql
+                CREATE TABLE visitors (
+                    visitor_id serial PRIMARY KEY,
+                    first_name varchar(20),
+                    last_name varchar(20),
+                    checkin_time time,
+                    checkout_time time
+                );
+                ```
+
+        3. **`TIMESTAMP` data type**:
+            - The timestamp data type stores both date and time information in the format of `YYYY-MM-DD HH:MI:SS`.
+
+                **Example:**
+
+                ```sql
+                CREATE TABLE comments (
+                    comment_id serial PRIMARY KEY,
+                    post_id int,
+                    user_id int,
+                    comment_text text,
+                    created_at timestamp
+                );
+                ```
+
+        4. **`INTERVAL` data type**:
+            - The interval data type stores a period of time in a range of formats such as years, months, days, hours, minutes, and seconds.
+
+                **Example:**
+
+                ```sql
+                CREATE TABLE tasks (
+                    task_id serial PRIMARY KEY,
+                    task_name varchar(50),
+                    start_time timestamp,
+                    end_time timestamp,
+                    duration interval
+                );
+                ```
+
+    4. Boolean Data Types
+        - This is a simple data type that has only two possible values: `TRUE` or `FALSE`. 
+        - It is useful in many situations where only two states are required, such as to represent the state of a flag or the result of a logical operation.
+
+            **Example:**
+
+            ```sql
+            CREATE TABLE orders (
+                order_id SERIAL PRIMARY KEY,
+                customer_name VARCHAR(50) NOT NULL,
+                order_date DATE NOT NULL,
+                shipped BOOLEAN DEFAULT FALSE
+            );
+            ```
+        
+    5. Array Data Types
+        - The data type array allows you to store multiple values of the same data type in a single column. 
+        - This can be useful in situations where you need to store a list of values, such as a list of phone numbers or email addresses.
+
+            **Example:**
+
+            ```sql
+            CREATE TABLE users (
+                user_id SERIAL PRIMARY KEY,
+                name VARCHAR(50) NOT NULL,
+                emails TEXT[] NOT NULL
+            );
+            ```
+
+            - In this example, the “emails” column is of type `TEXT[]` (an array of text values).
+
+    6. Composite Data Types
+        - With composite data types, you can define your own data types by combining multiple data types into a single data type. 
+        - This is useful when you need to store multiple related values in a single column.
+
+            **Example:**
+
+            ```sql
+            -- Creating a composite data type called address
+            CREATE TYPE address AS (
+                street VARCHAR(50),
+                city VARCHAR(50),
+                state CHAR(2),
+                zip VARCHAR(10)
+            );
+
+            -- Using the address data type
+            CREATE TABLE customers (
+                customer_id SERIAL PRIMARY KEY,
+                name VARCHAR(50) NOT NULL,
+                address address
+            );
+            ```
+
+            - In this example, we have defined a new data type called “address” that consists of four fields: street, city, state, and zip.
+
+    7. Special Data Types
+
+        1. **`UUID` data type**:
+            - The `UUID` (Universally Unique Identifier) data type allows you to store unique identifiers as 128-bit values. 
+            - This can be useful when you need to generate unique identifiers for records in a table.
+
+                **Example:**
+
+                ```sql
+                CREATE TABLE users (
+                    user_id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+                    name VARCHAR(50) NOT NULL
+                );
+                ```
+
+                - The “user_id” column is of type UUID and has a default value of `uuid_generate_v4()`, which generates a new UUID value for each new record.
+
+        2. **`JSON` data type**:
+            - The `JSON` data type allows you to store `JSON` (JavaScript Object Notation) data in a column. 
+            - This can be useful when you need to store complex data structures that can be easily serialized and deserialized.
+
+                **Example:**
+
+                ```sql
+                CREATE TABLE products (
+                    product_id SERIAL PRIMARY KEY,
+                    name VARCHAR(50) NOT NULL,
+                    attributes JSON NOT NULL
+                );
+                ```
+
+        3. **`XML` data type**:
+            - The XML data type allows you to store XML (Extensible Markup Language) data in a column. 
+            - This can be useful when you need to store and query XML data in your database.
+
+                **Example:**
+
+                ```sql
+                CREATE TABLE books (
+                    book_id SERIAL PRIMARY KEY,
+                    title VARCHAR(50) NOT NULL,
+                    content XML NOT NULL
+                );
+                ```
+
+        4. **`Hstore` data type**:
+            - The Hstore data type allows you to store key-value pairs in a single column. 
+            - This can be useful when you need to store a variable number of attributes for a record.
+
+            **Example:**
+
+            ```sql
+            CREATE TABLE products (
+                product_id SERIAL PRIMARY KEY,
+                name VARCHAR(50) NOT NULL,
+                attributes HSTORE NOT NULL
+            );
+            ```
+
+### Creating Relationships through Foreign Keys
+
+- A Foreign Key is a column or groups of columns that uniquely identify a record in another table.
+- It establishes a link between the data in 2 tables by referencing the primary key or a unique constraint of the referenced table.
+- The table containing the foreign key is referred to as the referencing table or child table.
+- The table referenced by a foreign key is referred to as the referenced table or parent table
+- The main purpose of a foreign key is to maintain referential integrity.
+- Foreign keys maintain consistency by automatically updating or deleting related rows in the child table when changes occur in the parent table.
+- A table can have multiple foreign keys depending on the relationships with other tables.
+
+**Syntax:**
+
+```sql
+[CONSTRAINT <fk-name>]
+    FOREIGN KEY(fk-column(s))
+    REFERENCES <parent-table>(<parent-key-column>)
+    [ON DELETE <delete-action>]
+    [ON UPDATE <update-action>]
+```
+
+- Specify the name for the foreign key constraint after the `CONSTRAINT` keyword. This clause is optional. If you omit it PostgreSQL will assign an auto-generated name.
+- Specify one or more foreign key columns in parentheses after the `FOREIGN KEY` keywords
+- Specify the parent table and the parent key columns referenced by the foreign key columns in the `REFERENCES` clause
+- Specify the desired delete or update actions in `ON DELETE` and `ON UPDATE` clauses.
+
+- Actions available for `ON DELETE`:
+
+    1. `SET NULL`
+    2. `SET DEFAULT`
+    3. `RESTRICT`
+    4. `NO ACTION`
+    5. `CASCADE`
+
+**Scenario:**
+
+- The store owner has contacted you and asked that you add a way to keep records of a suppliers contact person and their information. Implement a design that maintains referential integrity but still achieves the desired goal.
+
+```sql
+-- Drop existing tables
+DROP TABLE IF EXISTS suppliers;
+DROP TABLE IF EXISTS contacts;
+
+-- Create suppliers table
+CREATE TABLE suppliers(
+	id SERIAL PRIMARY KEY,
+	supplier_name VARCHAR(100) NOT NULL UNIQUE,
+	brand_name VARCHAR(100),
+	address TEXT,
+	is_active BOOL
+);
+
+-- Create the contacts table
+CREATE TABLE contacts(
+	id SERIAL PRIMARY KEY,
+	supplier_id INT,
+	contact_name VARCHAR(255) NOT NULL,
+	phone VARCHAR(15),
+	email VARCHAR(100),
+	-- Create the foreign key constraint
+	CONSTRAINT fk_supplier
+		FOREIGN KEY(supplier_id) -- refers TO COLUMN inside contacts table
+		REFERENCES suppliers(id)
+		ON DELETE SET NULL
+		ON UPDATE NO ACTION
+);
+
+-- Create supplier records
+INSERT INTO suppliers(supplier_name, brand_name, address, is_active)
+VALUES ('Apple', 'Apple', 'One Apple Park Way, Cupertino, California', TRUE),
+	('Microsoft', 'Microsoft', '1 Microsoft Way, Redmond, WA 98052, US', True),
+	('Asus', 'Asus', '15, LiDe Rd., Beitou Dist, Taiwan,', True);
+
+-- Create contacts records
+INSERT INTO contacts(supplier_id, contact_name, phone, email)
+VALUES (1, 'Tim Cook', '+19764434565', 'timcook@apple.com'),
+	(2, 'Satya Nadella', '+123212432', 'satya@microsoft.com'),
+	(3, 'Samson Hu', '+3543233423', 'samson@asus.com');
+```
+
 #### PostgreSQL Cheatsheets
 
 - https://gist.github.com/Kartones/dd3ff5ec5ea238d4c546
