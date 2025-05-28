@@ -115,6 +115,46 @@ def insert_many_vendors(vendor_list: list):
     except (psycopg2.DatabaseError, Exception) as error:
         print(error)
 
-vendors = [('The Supply Co.',), ('Altech Solutions',), ('Fin Motor Parts',), ('Brown & Sons Engineering',)]
-insert_many_vendors(vendors)
+
+def get_vendors():
+    """ Retrieve data from the vendors table
+    """
+    conn = connect()
+    with conn.cursor() as cur:
+        # Execute the SELECT statement
+        cur.execute("SELECT * FROM vendors ORDER BY vendor_name;")        
+        row = cur.fetchone()
+        print(row)
+    conn.close()
+
+
+def get_many_vendors(size=10):
+    """ 
+    Return a set of vendors limited by the size parameter.
+    size: default=10
+    """
+    conn = connect()
+    with conn.cursor() as cur:
+        cur.execute("SELECT * FROM vendors ORDER BY vendor_name;")
+        rows = cur.fetchmany(size=size)
+        
+        while rows:
+            print(rows)
+            # Retrieve the next set of results
+            rows = rows = cur.fetchmany(size=size)
+    conn.close()
+        
+        
+def get_all_parts():
+    """ 
+    Retrieves all parts from the database
+    """
+    conn = connect()
+    with conn.cursor() as cur:
+        cur.execute("SELECT * FROM parts;")
+        rows = cur.fetchall()
+        print(rows)
+    conn.close()
+    
+get_all_parts()
  
