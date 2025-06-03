@@ -156,5 +156,3 @@ def get_all_parts():
         print(rows)
     conn.close()
     
-get_all_parts()
- 
