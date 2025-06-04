@@ -8,6 +8,8 @@
     2. Inner Join
     3. Left Join
     4. Right Join
+    5. Left Outer Join
+    6. Right Outer Join
 - Common use cases
 
 ### What are joins?
