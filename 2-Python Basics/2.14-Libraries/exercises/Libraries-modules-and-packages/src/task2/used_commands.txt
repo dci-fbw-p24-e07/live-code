@@ -1,0 +1,29 @@
+python3 -m venv env1
+
+python3 -m venv env2
+
+source env1/bin/activate
+
+# in env1
+
+pip install -U pip
+
+pip install numpy matplotlib requests
+
+pip freeze > requirements.txt
+
+pip list > list.txt
+
+python my_script.py
+
+deactivate
+
+source env2/bin/activate
+
+# in env2
+
+pip install -r requirements.txt
+
+pip install -U pip
+
+python my_script.py
