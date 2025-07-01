@@ -214,6 +214,12 @@ python manage.py shell
 from blog.models import BlogPosts
 ```
 
+- To check the SQL query that will be run
+
+    ```python
+    print(<queryset>.query)
+    ```
+
 ### CRUD operations using the ORM
 
 #### Inserting data
@@ -307,4 +313,91 @@ blog = BlogPosts.objects.get(id=3)
 
 # Delete object
 blog.delete()
+```
+
+## 01.07.25 - Field lookups, Aggregation and Chaining
+
+- What are field lookups?
+- Using lookup fields
+- Aggregation and annotation using DjangoORM
+- Chaining querysets
+
+### Field lookups
+
+- Field lookups are key to creating SQL `WHERE` clauses.
+- These are used in methods like `filter()`, `exclude()`, and `get()`
+- They are used as parameters tied together with a specific field in the model
+
+```python
+<model-name>.objects.<model-method>(<field>__<lookup>=<value-to-compare>)
+
+Employee.objects.filter(dob__gte="1986-07-10")
+
+Employee.objects.filter(first_name__icontains="X%")
+```
+
+> [Lookup Fields Reference](https://docs.djangoproject.com/en/5.2/ref/models/querysets/#field-lookups)
+
+1. `startswith`
+
+    ```python
+    blog_1 = BlogPosts.objects.filter(title__startswith="D")
+
+    # Output: <QuerySet [<BlogPosts: Django is fun>, <BlogPosts: Django is fun for everyone>]>
+    ```
+
+2. `in`
+
+    - Check for values that are in the provided list
+
+    ```python
+    # <model-name>.objects.<model-method>(<field>__<lookup>=[list-of-values])
+
+    blog_2 = BlogPosts.objects.filter(pk__in=[1, 3, 5])
+    ```
+
+3. `year`
+
+    ```python
+    blog_3 = BlogPosts.objects.exclude(created_at__year=2025)
+    ```
+
+4. `range`
+
+    ```python
+    # Get all blogposts that have an id in the range 1 - 5
+
+    blog_4 = BlogPosts.objects.filter(pk__range=(1, 5))
+    ```
+
+5. `startswith`
+
+    ```python
+    # Get all posts whose title starts with the T
+    blog_x = BlogPosts.objects.filter(title__startswith='T').values()
+    ```
+
+6. `iendswith`
+
+    ```python
+    # Get all posts whose title ends with the letter e
+    blog_6 = BlogPosts.objects.filter(title__iendswith="E")
+    ```
+
+### Aggregation and annotation with Django ORM
+
+**Annotation:**
+
+- Creates a summary of each object in a queryset
+
+```python
+<annotated-output> = <model-name>.objects.annotate(<variable>=<aggregate-function>(<field-name>))
+
+Employee.objects.annotate(avg_salary=Avg('salary'))
+
+# Count all the chapters of each book
+books = Book.objects.annotate(chapter_count=Count('bookdata'))
+
+# Access the chapters variable
+books[0].chapter_count
 ```
