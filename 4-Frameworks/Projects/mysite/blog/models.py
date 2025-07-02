@@ -21,7 +21,42 @@ class Book(models.Model):
     pages = models.IntegerField()
     price = models.DecimalField(max_digits=10, decimal_places=2)
     
+    class Meta:
+        indexes = [
+            models.Index(fields=['name'], name="book_name_idx"),
+            models.Index(fields=['price'], name="book_price_idx")
+        ]
+        constraints = [
+            models.CheckConstraint(condition=models.Q(pages__gte=50), name="pages_gte_50"),
+            # Check that the price is not above 100
+            models.CheckConstraint(condition=models.Q(price__lte=100), name="price_lte_100")
+        ]
+    
+    def save(self, **kwargs):
+        if "Java".lower() in self.name.lower():
+            return "We don't like Java over here"
+        else:
+            # Call the actual save method
+            super().save(**kwargs)
+        
+    def price_status(self):
+        """ 
+        Returns the price status of a book
+        """
+        
+        if self.price >= 65:
+            return "Expensive"
+        elif self.price >= 35 and self.price <= 64:
+            return "Affordable"
+        elif self.price <= 34:
+            return "Cheap"
+    
 
 class BookData(models.Model):
     book_id = models.ForeignKey(Book, on_delete=models.CASCADE)
     chapter_name = models.CharField(max_length=250)
+    
+    class Meta:
+        db_table = "_book_data"
+    
+        

@@ -386,6 +386,12 @@ Employee.objects.filter(first_name__icontains="X%")
 
 ### Aggregation and annotation with Django ORM
 
+- Aggregation and annotation functions must always be imported separately
+
+```python
+from django.db.models import Sum, Max, Min, Count, Avg
+```
+
 **Annotation:**
 
 - Creates a summary of each object in a queryset
@@ -401,3 +407,135 @@ books = Book.objects.annotate(chapter_count=Count('bookdata'))
 # Access the chapters variable
 books[0].chapter_count
 ```
+
+**Aggregation:**
+
+- Combines separate elements to form a whole
+- Combine records of the fields to get a summary of the query set.
+
+```python
+<model-name>.objects.aggregate(<aggregation-func>('<field-name>'))
+
+Employee.objects.aggregate(Sum('salary'))
+
+# Get the total value of all the books
+Book.objects.aggregate(Sum('price'))
+
+# Get the average number of pages each book has
+Book.objects.aggregate(Avg('pages'))
+
+# Get the maximum number of pages that a book has
+Book.objects.aggregate(Max('pages'))
+```
+
+## 02.07.25 - Meta class and model methods
+
+- What is the `Meta` class?
+- Meta class options
+- Using the Meta class to enhance Model functionality
+- Overriding Django Model methods
+
+### `Meta` Class
+
+- A special inner class that is used to provide metadata to the model.
+- It's not a Django-specific feature it is a Python feature where an inner class called Meta can be used to configure behaviour of a class especially in frameworks.
+- It provides a way to customize the behaviour without adding new fields.
+
+**Commonly used options:**
+
+- `db_table` - Override the automatically created table name (`<app-name>_<model-name>`)
+- `ordering` - Used to determine the field which should to order a queryset. Default is usually the primary key field
+- `unique_together` - Enforces that a combination of fields must be unique at the database level
+- `indexes` - list of indexes to speed up database lookups
+
+> You can find all `Meta` options at: [https://docs.djangoproject.com/en/5.2/ref/models/options/](https://docs.djangoproject.com/en/5.2/ref/models/options/)
+
+**Using the `Meta` options:**
+
+1. `indexes`
+
+    - Defines a list of indexes to be used on the database
+    - created and managed using the `models.Index` class
+
+    ```python
+    class Meta:
+        indexes = [
+            models.Index(fields=['name'], name="book_name_idx"),
+            models.Index(fields=['price'], name="book_price_idx")
+        ]
+    ```
+
+2. `constraints`
+
+    - Defines a list of database constraints to be enforced when saving data to the database
+    - Can be created using the `models.CheckConstraint()` or `models.UniqueConstraint()`
+
+    ```python
+    constraints = [
+            models.CheckConstraint(condition=models.Q(pages__gte=50), name="pages_gte_50"),
+            # Check that the price is not above 100
+            models.CheckConstraint(condition=models.Q(price__lte=100), name="price_lte_100")
+        ]
+    ```
+
+3. `db_table`
+
+    - Defines the table name for the database
+
+    ```python
+    db_table = "book_data"
+    ```
+
+**Benefits of using the `Meta` class:**
+
+1. It keeps your models clean by separating configuration from fields
+2. It lets you customize behaviour without affecting the actual data structure
+3. It improves readability, performance and control over how your models work
+
+### Model Methods and overriding
+
+- django model methods provide functionality on a "row-level" basis as opposed to the Model Manager which accesses the full model
+- This is valuable for keeping business logic for models in one place.
+
+**Create a custom method:**
+
+- Create a method to determine whether a book is expensive, affordable or cheap. This will be determined by price range:
+
+    - Expensive - 65-100
+    - Affordable - 35 - 64
+    - Cheap - 34  and below
+
+    ```python
+    def price_status(self):
+        """ 
+        Returns the price status of a book
+        """
+        
+        if self.price >= 65:
+            return "Expensive"
+        elif self.price >= 35 and self.price <= 64:
+            return "Affordable"
+        elif self.price <= 34:
+            return "Cheap"
+
+    # Using the custom method
+    book_1 = Book.objects.get(id=2)
+    book_1.price_status() # Output: 'Cheap'
+    ```
+
+**Overriding built-in model methods:**
+
+- Django models have a few built-in methods that offer specific functionality e.g. `save()`, `delete()`,` __str__()`, etc.
+- These can be overridden to produce some custom functionality
+- The `super().save(**kwargs)` should be called within the custom method in order for saving to actually take place
+
+- We don't want to save any books that have the word Java in the name
+
+    ```python
+    def save(self, **kwargs):
+        if "Java".lower() in self.name.lower():
+            return "We don't like Java over here"
+        else:
+            # Call the actual save method
+            super().save(**kwargs)
+    ```
