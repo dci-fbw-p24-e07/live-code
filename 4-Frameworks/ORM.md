@@ -539,3 +539,107 @@ Book.objects.aggregate(Max('pages'))
             # Call the actual save method
             super().save(**kwargs)
     ```
+
+## 04.07.25 - Lazy Loading and complex queries
+
+- What is Lazy Loading?
+- What is Eager Loading?
+- Lazy vs Eager loading
+- URL parameters
+- Using the Q objects to create multiple filters
+
+### Lazy and Eager Loading
+
+**Lazy Loading:**
+
+- This is a technique where the database is accessed only when specific data is explicitly requested. This means that when we query a model, on the primary data(all model fields except foreign keys) is fetched initially.
+- This is default behaviour for Django.
+-Typically used when related data is not always needed, allowing for efficient memory usage and reduced bandwidth usage 
+- In order to access related data we will need to make additional queries to the database. This might create performance issues especially if multiple related objects are accessed frequently.
+
+```python
+def blog_list(request):
+    # Fetch all blogs
+    blogs = BlogPosts.objects.all()
+    
+    context = ""
+    
+    # Iterate over the blogs
+    for blog in blogs:
+        
+        # Performs another query in order to retrieve dat from the Author model
+        author = blog.author  # Lazy loading
+        
+        context += f"<li>{blog.title} - {author.first_name}</li>"  # a query is executed to retrieve the authors first_name
+    return HttpResponse(f"<h2>All Blog Posts</h2></br><ul>{context}</ul>")
+```
+
+**Eager Loading:**
+
+- Is a technique used to optimize database queries by retrieving related objects alongside the main objects in the query.
+- This is particularly useful when we know that related data will be needed immediately after fetching primary data.
+- This is usually achieved through the `selected_related()` method of the model manager
+
+```python
+def blog_list(request):
+    # Fetch all blogs and their related authors
+    blogs = BlogPosts.objects.select_related('author').all()
+    
+    context = ""
+    
+    # Iterate over the blogs
+    for blog in blogs:
+        
+        context += f"<li>{blog.title} - {blog.author.first_name}</li>"  # No additional queries executed
+    return HttpResponse(f"<h2>All Blog Posts</h2></br><ul>{context}</ul>")
+```
+
+### URL Parameters
+
+**Creating URL:**
+
+```python
+urlpatterns = [
+    # existing urls...
+    path("<blog_id>/", views.blog_detail, name="blog-detail"),
+]
+```
+
+- The `blog_id` is called a path parameter and can be used in the view to filter data.
+- The name used on the path parameter must match the name given in the view parameters
+
+**Create the view:**
+
+```python
+def blog_detail(request, blog_id):
+    blog = BlogPosts.objects.get(pk=blog_id)
+    content = blog.body
+    return HttpResponse(content)
+```
+
+- You will now be able to access a blog based on its ID using the path `http://localhost:8000/blog/1` (for blog with ID = 1)
+- If you enter a non-existent ID the browser will show a 404 not found error
+
+### Using the Q object
+
+- The `Q` allows us to create complex queries by combining multiple conditions using logical operators
+- The `Q` object can be imported from `django.db.models`
+
+**Scenario:**
+
+- You want to filter for blogs that are published and the title contain the letter "t" (non case-sensitive)
+
+**Filtering with multiple conditions in a single filter:**
+
+```python
+published_blogs_t = BlogPosts.objects.filter(published=True, title__icontains="T")
+```
+
+**Filtering with multiple conditions using Q objects:**
+
+- When using multiple q objects they are separated by either `&` or `|`
+
+```python
+q_published_blogs_t = BlogPosts.objects.filter(Q(published=True) & Q(title__icontains="T"))
+```
+
