@@ -7,13 +7,7 @@ def blog_list(request):
     # Fetch all blogs and their related authors
     blogs = BlogPosts.objects.select_related('author').all()
     
-    context = ""
-    
-    # Iterate over the blogs
-    for blog in blogs:
-        
-        context += f"<li>{blog.title} - {blog.author.first_name}</li>"  # No additional queries executed
-    return HttpResponse(f"<h2>All Blog Posts</h2></br><ul>{context}</ul>")
+    return render(request, "blog_list.html", context={"blogs": blogs})
 
 
 def blog_detail(request, blog_id):
