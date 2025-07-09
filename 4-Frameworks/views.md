@@ -90,4 +90,75 @@ def blog_detail(request, blog_id):
         </html>
         ```
 
+### Class-based views
 
+- Django offers the ability to use class-based views as an alternative to function-based views.
+- This can be achieved through inheriting one of the many View classes that Django offers:
+    1. View (base)
+    2. TemplateView
+    3. DetailView - Get - Retrieve
+    4. ListView - Get - Retrieve
+    5. CreateView - Post - Create
+    6. UpdateView - Put/Patch - Update
+
+**View:**
+
+- This the base view that django offers
+- It allows to customize behaviour by tapping into different http methods
+- This is done by defining class methods that have the exact name of the method you wish to customize(e.g `get`, `post`, `delete`, `put`, etc)
+
+```python 
+# views.py
+from django.views import View
+
+class MySampleView(View):
+
+    def get(self, request):
+        return render(request, "sample.html")
+```
+
+```python
+# urls.py
+from . import views
+
+urlpatterns = [
+    # existing paths.... 
+    path("sample/", views.MySampleView.as_view(), name="sample-view")
+]
+```
+
+- When calling a class based view in the urls you need to tap into the `as_view()` so that Django can translate it into a view.
+
+- Retrieve all books from the `Book` model then send them to the template as context and display each book with its corresponding author in a list
+
+## 09.07.25 - TemplateView and template tags & filters
+
+- Using the TemplateView
+- Utilising template tags and filters
+- Using static files (css, javascript, etc)
+
+### TemplateView
+
+- This inherits from the base `View` class
+- It allows you to render a template without writing extra lines of code
+- In order to send context to the template you will need to overwrite the `get_context_data()` method
+
+```python
+from django.views.generic import TemplateView
+
+class ExampleView(TemplateView):
+    template_name = "example.html" # Point to the template
+
+    def get_context_data(self, **kwargs):
+        # Recreate the context
+        context = super().get_context_data(**kwargs) # {}
+        # Add new extra context
+        context["sample_context"] = Book.objects.all()
+        context["blogs"] = BlogPosts.objects.all()
+        return context
+```
+
+- In the `core` app rewrite all the views to use the `TemplateView` class. They should still display the same information as before
+- When \accessing the context from the template you would use the newly created key(in this example `sample_context`)
+
+- Create a class called `AuthorsView` that uses the TemplateView and sends a list of all author to the template `author_list.html` and displays this as an ordered list

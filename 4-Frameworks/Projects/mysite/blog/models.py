@@ -42,6 +42,9 @@ class Book(models.Model):
             # Check that the price is not above 100
             models.CheckConstraint(condition=models.Q(price__lte=100), name="price_lte_100")
         ]
+        
+    def __str__(self):
+        return str(self.name)
     
     def save(self, **kwargs):
         if "Java".lower() in self.name.lower():
