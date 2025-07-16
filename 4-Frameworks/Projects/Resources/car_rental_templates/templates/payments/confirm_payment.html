@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% block content %}
+  <h2>Confirm Payment</h2>
+  <p>Car: {{ booking.car.name }}</p>
+  <p>Total Days: {{ booking.total_days }}</p>
+  <p>Total Amount: ${{ booking.total_price }}</p>
+  <form method="post">
+    {% csrf_token %}
+    <button type="submit">Pay Now</button>
+  </form>
+{% endblock %}

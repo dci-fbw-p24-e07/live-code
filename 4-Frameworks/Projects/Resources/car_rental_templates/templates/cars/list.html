@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% block content %}
+  <h2>Available Cars</h2>
+  <table>
+    <tr>
+      <th>Name</th>
+      <th>Brand</th>
+      <th>Price/Day</th>
+      <th>Action</th>
+    </tr>
+    {% for car in cars %}
+    <tr>
+      <td>{{ car.name }}</td>
+      <td>{{ car.brand }}</td>
+      <td>${{ car.price_per_day }}</td>
+      <td><a href="{% url 'book_car' car.id %}"><button>Book Now</button></a></td>
+    </tr>
+    {% endfor %}
+  </table>
+{% endblock %}
