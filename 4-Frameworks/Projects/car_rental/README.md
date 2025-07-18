@@ -434,3 +434,270 @@
 
     python manage.py migrate
     ```
+
+## Step 6: Views and Admin setup
+
+### Admin interface
+
+- Register all models in the admin panel:
+
+1. CustomUser
+
+    - in the `users/admin.py` file:
+
+    ```python
+    from .models import CustomUser
+
+    admin.site.register(CustomUser)
+    ```
+
+2. Booking
+
+    - In the `bookings/admin.py` file:
+
+    ```python
+    from .models import Booking
+
+    admin.site.register(Booking)
+    ```
+
+3. Car
+
+    - In the `cars/admin.py` file:
+
+    ```python
+    from .models import Car
+
+    admin.site.register(Car)
+
+4. Payment
+
+    - In the `payments/admin.py` file:
+
+    ```python
+    from .models import Payment
+
+    admin.site.register(Payment)
+    ```
+
+- Create a superuser and login to the admin interface
+
+```shell
+python manage.py createsuperuser
+```
+
+### Views
+
+1. Home view
+
+    - In the `core/views.py` file
+
+        ```python
+        def index(request):
+            return render(request, "core/index.html")
+        ```
+
+    - Create the `index.html` file in the `templates/core/` directory:
+
+        ```html
+        {% extends 'base.html' %}
+        {% block content %}
+        <h2>Welcome to the Car Rental System</h2>
+        <p>Browse and book available cars easily.</p>
+        {% endblock %}
+        ```
+
+    - Create a URL path for the home page in `core/urls.py` file:
+
+        ```python
+        urlpatterns = [
+            path("", views.index, name="index"),
+        ]
+        ```
+
+2. Car list view
+
+    - Create the `car_list` view in the `cars/view.py` file:
+
+        ```python
+        from .models import Car
+
+        def car_list(request):
+            cars = Car.objects.filter(availability=True)
+            return render(request, "cars/list.html", {"cars": cars})
+        ```
+
+    - Create the `list.html` template in the `templates/cars` directory:
+
+        ```python
+        {% extends 'base.html' %}
+        {% block title %} 
+        Car Rental - Available Cars
+        {% endblock %}
+        {% block content %}
+        <h2>Available Cars</h2>
+        <table>
+            <tr>
+            <th>Name</th>
+            <th>Brand</th>
+            <th>Price/Day</th>
+            <th>Action</th>
+            </tr>
+            {% for car in cars %}
+            <tr>
+            <td>{{ car.name }}</td>
+            <td>{{ car.brand }}</td>
+            <td>${{ car.price }}</td>
+            <td><a href="{% url 'bookings:create' car.id %}"><button>Book Now</button></a></td>
+            </tr>
+            {% endfor %}
+        </table>
+        {% endblock %}
+        ```
+
+    - Create an apprpriate url path in the `cars/urls.py` file:
+
+        ```python
+        urlpatterns = [
+            path("", views.car_list, name="list"),
+        ]
+
+3. Booking view - with a form
+
+    - Create a `BookingForm` in the `bookings/forms.py`:
+
+        ```python
+        from django import forms
+        from .models import Booking
+
+        class BookingForm(forms.Form):
+            start_date = forms.DateField(widget=forms.DateInput(attrs={
+                "type": "date"}))
+            end_date = forms.DateField(widget=forms.DateInput(attrs={
+                "type": "date"}))
+
+        # OR
+
+        class BookingForm(forms.ModelForm):
+
+            class Meta:
+                model = Booking
+                fields = ["start_date", "end_date"]
+        ```
+
+    - Create the `create_booking` view in the `bookings/views.py` file:
+
+        ```python
+        from django.shortcuts import render, redirect, get_object_or_404
+        from .models import Booking
+        from .forms import BookingForm
+        from cars.models import Car
+
+        def create_booking(request, car_id):
+            # Retrieve the car
+            car = get_object_or_404(Car, id=car_id)
+            if request.method == "POST":
+                form = BookingForm(request.POST)
+                if form.is_valid():
+                    # Get the date values
+                    start_date = form.cleaned_data["start_date"]
+                    end_date = form.cleaned_data["end_date"]
+
+                    # Create the booking
+                    booking = Booking.objects.create(
+                        customer=request.user,
+                        car=car,
+                        start_date=start_date,
+                        end_date=end_date,
+                        confirmed=False
+                    )
+                    return redirect("payments:pay", booking.id)
+            form = BookingForm()
+            return render(request, "bookings/book.html", {
+                "car": car, "form": form
+            })
+        ```
+
+    - Create the `booking.html` template in the `templates/bookings/` directory:
+
+        ```html
+        {% extends 'base.html' %}
+
+        {% block title %}
+        Create Booking - {{ car }}
+        {% endblock title %}
+
+        {% block content %}
+        <h2>Book Car: {{ car }}</h2>
+        <form method="post">
+            {% csrf_token %}
+            <label>{{ form.start_date.label }}</label><br>
+            {{ form.start_date }}
+            <label>{{ form.end_date.label }}:</label><br>
+            {{ form.end_date }}
+            <button type="submit">Proceed to Payment</button>
+        </form>
+        {% endblock %}
+        ```
+
+    - Create an appropriate URL path:
+
+        ```python
+        urlpatterns = [
+            path("create/<int:car_id>/", views.create_booking, name="create"),
+        ]
+
+4. Mock payment
+
+    - In the `payments/views.py` create they `pay` view:
+
+        ```python
+        from django.shortcuts import render, redirect, get_object_or_404
+        from bookings.models import Booking
+        from payments.models import Payment
+
+        def pay(request, booking_id):
+            booking = get_object_or_404(Booking, id=booking_id)
+            if request.method == "POST":
+                Payment.objects.create(
+                    booking=booking,
+                    amount_paid=booking.total_price(),
+                    status="success",
+                )
+                booking.confirmed = True
+                booking.save()
+                booking.car.availability = False
+                return redirect("payments:success")
+            return render(request, "payments/confirm_payment.html", {"booking": booking})
+        ```
+
+    - Create the file `confirm_payment.html` in the `templates/payments/` directory:
+
+        ```html
+        {% extends 'base.html' %}
+
+        {% block title %}
+        Car Rental - Confirm Payment
+        {% endblock %}
+
+        {% block content %}
+        <h2>Confirm Payment</h2>
+        <p>Car: {{ booking.car.name }}</p>
+        <p>Total Days: {{ booking.total_days }}</p>
+        <p>Total Amount: ${{ booking.total_price }}</p>
+        <form method="post">
+            {% csrf_token %}
+            <button type="submit">Pay Now</button>
+        </form>
+        {% endblock %}
+        ```
+
+    - Create an appropriate URL in the `payments/urls.py` file:
+
+        ```python
+        urlpatterns = [
+            path("confirm/<int:booking_id>/", views.pay, name="pay"),
+        ]
+        
+
+5. Payment success

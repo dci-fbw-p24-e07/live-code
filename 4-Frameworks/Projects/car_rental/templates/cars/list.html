@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% block title %} 
+  Car Rental - Available Cars
+{% endblock %}
+{% block content %}
+  <h2>Available Cars</h2>
+  <table>
+    <tr>
+      <th>Name</th>
+      <th>Brand</th>
+      <th>Price/Day</th>
+      <th>Action</th>
+    </tr>
+    {% for car in cars %}
+    <tr>
+      <td>{{ car.name }}</td>
+      <td>{{ car.brand }}</td>
+      <td>${{ car.price }}</td>
+      <td><a href="{% url 'bookings:create' car.id %}"><button>Book Now</button></a></td>
+    </tr>
+    {% endfor %}
+  </table>
+{% endblock %}
