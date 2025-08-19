@@ -82,5 +82,22 @@ curl -v https://example.com
 - Only that it is used to edit an existing resources
 
     ```shell
-    curl -X PUT -H 'Content-Type: application/json' -d @edit.json h
+    curl -X PUT -H 'Content-Type: application/json' -d @edit.json https://fakestoreapi.com/users/6
     ```
+
+4. DELETE
+
+- USed to delete an existing resource
+- We have to use the -X option to specify the `DELETE` method
+
+    ```shell
+    curl -X DELETE https://fakestoreapi.com/users/4
+    ```
+
+### Custom headers 
+
+```shell
+curl -d @new.json -H "x-rapidapi-key: API KEY" -H "x-rapidapi-host: HOSTNAME" https://example.com
+```
+
+- Each new header will have to be supplied separately in it's own option
