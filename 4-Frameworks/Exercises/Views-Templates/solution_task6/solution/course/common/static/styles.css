@@ -1,0 +1,8 @@
+header {
+  border-bottom: 2px solid darkblue;
+}
+footer {
+  border-top: 2px dashed indigo;
+  text-align: center;
+  font-style: italic;
+}

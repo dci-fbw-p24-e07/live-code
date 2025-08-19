@@ -1,0 +1,11 @@
+{% extends 'notes/base.html' %}
+
+{% block content %}
+  {{ block.super }}
+  <h4>Browse my notes by section</h4>
+  <ol>
+    {% for section in sections %}
+      <li><a href="{% url 'notes:by_section' section_name=section %}">{{ section }}</a></li>
+    {% endfor %}
+  </ol>
+{% endblock %}

@@ -1,0 +1,12 @@
+{% extends 'notes/base.html' %}
+{% load sections %}
+
+{% block content %}
+  {{ block.super }}
+  <h4>Browse my notes by section</h4>
+  <ol>
+    {% for section in sections %}
+      <li>{{ section|linked_section|safe }}</li>
+    {% endfor %}
+  </ol>
+{% endblock %}

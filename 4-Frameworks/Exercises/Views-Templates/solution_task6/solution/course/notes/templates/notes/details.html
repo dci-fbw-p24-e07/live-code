@@ -1,0 +1,21 @@
+{% extends 'notes/base.html' %}
+{% load sections %}
+
+{% block content %}
+  {{ block.super }}
+  <h4>Note number {{ id }}</h4>
+  <p><strong>Section:</strong> {{ note.section|linked_section|safe }}</p>
+  <p>{{ note.text|safe }}</p>
+  <p>
+    {% if id > 1 %}
+      <a href="{% url 'notes:details' note_id=id|add:-1 %}">Previous</a>
+    {% else %}
+      Previous
+    {% endif %}
+    {% if id < num_notes %}
+      <a href="{% url 'notes:details' note_id=id|add:1 %}">Next</a>
+    {% else %}
+      Next
+    {% endif %}
+  </p>
+{% endblock %}

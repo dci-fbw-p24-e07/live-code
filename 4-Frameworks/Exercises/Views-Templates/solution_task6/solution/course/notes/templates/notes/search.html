@@ -1,0 +1,17 @@
+{% extends 'notes/base.html' %}
+{% load sections %}
+
+{% block content %}
+  {{ block.super }}
+  <h4>Notes matching {{ term }}</h4>
+  <ul>
+    {% for note in notes %}
+      {% if term in note.text %}
+        <li>
+          {{ note.text }}.
+          <div><em>Filed under section {{ note.section|linked_section|safe }}</em></div>
+        </li>
+      {% endif %}
+    {% endfor %}
+  </ul>
+{% endblock %}

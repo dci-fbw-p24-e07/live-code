@@ -1,0 +1,164 @@
+{
+    "data": [
+        {
+            "id": 23,
+            "name": "Ipswich Town",
+            "short_name": "Ipswich",
+            "abbr": "IPS",
+            "city": "Ipswich",
+            "stadium": "Portman Road"
+        },
+        {
+            "id": 25,
+            "name": "Leicester City",
+            "short_name": "Leicester",
+            "abbr": "LEI",
+            "city": "Leicester",
+            "stadium": "King Power Stadium"
+        },
+        {
+            "id": 40,
+            "name": "Southampton",
+            "short_name": "Southampton",
+            "abbr": "SOU",
+            "city": "Southampton",
+            "stadium": "St. Mary's Stadium"
+        },
+        {
+            "id": 1,
+            "name": "Arsenal",
+            "short_name": "Arsenal",
+            "abbr": "ARS",
+            "city": "London",
+            "stadium": "Emirates Stadium"
+        },
+        {
+            "id": 2,
+            "name": "Aston Villa",
+            "short_name": "Aston Villa",
+            "abbr": "AVL",
+            "city": "Birmingham",
+            "stadium": "Villa Park"
+        },
+        {
+            "id": 8,
+            "name": "Bournemouth",
+            "short_name": "Bournemouth",
+            "abbr": "BOU",
+            "city": "Bournemouth",
+            "stadium": "Vitality Stadium"
+        },
+        {
+            "id": 10,
+            "name": "Brentford",
+            "short_name": "Brentford",
+            "abbr": "BRE",
+            "city": "Brentford",
+            "stadium": "Gtech Community Stadium"
+        },
+        {
+            "id": 11,
+            "name": "Brighton and Hove Albion",
+            "short_name": "Brighton",
+            "abbr": "BHA",
+            "city": "Falmer",
+            "stadium": "American Express Stadium"
+        },
+        {
+            "id": 15,
+            "name": "Chelsea",
+            "short_name": "Chelsea",
+            "abbr": "CHE",
+            "city": "London",
+            "stadium": "Stamford Bridge"
+        },
+        {
+            "id": 17,
+            "name": "Crystal Palace",
+            "short_name": "Crystal Palace",
+            "abbr": "CRY",
+            "city": "London",
+            "stadium": "Selhurst Park"
+        },
+        {
+            "id": 19,
+            "name": "Everton",
+            "short_name": "Everton",
+            "abbr": "EVE",
+            "city": "Liverpool",
+            "stadium": "Goodison Park"
+        },
+        {
+            "id": 20,
+            "name": "Fulham",
+            "short_name": "Fulham",
+            "abbr": "FUL",
+            "city": "London",
+            "stadium": "Craven Cottage"
+        },
+        {
+            "id": 26,
+            "name": "Liverpool",
+            "short_name": "Liverpool",
+            "abbr": "LIV",
+            "city": "Liverpool",
+            "stadium": "Anfield"
+        },
+        {
+            "id": 28,
+            "name": "Manchester City",
+            "short_name": "Man City",
+            "abbr": "MCI",
+            "city": "Manchester",
+            "stadium": "Etihad Stadium"
+        },
+        {
+            "id": 29,
+            "name": "Manchester United",
+            "short_name": "Man Utd",
+            "abbr": "MUN",
+            "city": "Manchester",
+            "stadium": "Old Trafford"
+        },
+        {
+            "id": 31,
+            "name": "Newcastle United",
+            "short_name": "Newcastle",
+            "abbr": "NEW",
+            "city": "Newcastle",
+            "stadium": "St. James' Park"
+        },
+        {
+            "id": 33,
+            "name": "Nottingham Forest",
+            "short_name": "Nott'm Forest",
+            "abbr": "NFO",
+            "city": "Nottingham",
+            "stadium": "The City Ground"
+        },
+        {
+            "id": 45,
+            "name": "Tottenham Hotspur",
+            "short_name": "Spurs",
+            "abbr": "TOT",
+            "city": "London",
+            "stadium": "Tottenham Hotspur Stadium"
+        },
+        {
+            "id": 48,
+            "name": "West Ham United",
+            "short_name": "West Ham",
+            "abbr": "WHU",
+            "city": "London",
+            "stadium": "London Stadium"
+        },
+        {
+            "id": 51,
+            "name": "Wolverhampton Wanderers",
+            "short_name": "Wolves",
+            "abbr": "WOL",
+            "city": "Wolverhampton",
+            "stadium": "Molineux Stadium"
+        }
+    ]
+}

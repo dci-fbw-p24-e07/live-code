@@ -1,0 +1,13 @@
+{% extends 'notes/base.html' %}
+
+{% block content %}
+  {{ block.super }}
+  <h4>Notes matching {{ term }}</h4>
+  <ul>
+    {% for note in notes %}
+      {% if term in note.text %}
+        <li>{{ note.text }}.</li>
+      {% endif %}
+    {% endfor %}
+  </ul>
+{% endblock %}

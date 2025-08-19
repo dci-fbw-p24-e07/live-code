@@ -1,0 +1,12 @@
+{% extends 'notes/base.html' %}
+
+{% block content %}
+  {{ block.super }}
+  <h4>Notes about {{ section }}</h4>
+  <ol>
+    {% for note in notes %}
+      <li>{{ note.text }}</li>
+    {% endfor %}
+  </ol>
+  <p><a href="{% url 'notes:sections' %}">Back to sections</a></p>
+{% endblock %}
