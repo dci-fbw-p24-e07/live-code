@@ -49,7 +49,7 @@ response5 = requests.put("https://fakestoreapi.com/products/3", data=new_data)
 response6 = requests.delete("https://fakestoreapi.com/products/3")
 
 # Adding custom headers
-url = "https://jsearch.p.rapidapi.com/search"
+url = "https://jsearch.p.rapidapi.com/nothing"
 
 querystring = {
     "query":"developer jobs in chicago",
@@ -61,13 +61,15 @@ querystring = {
 
 # Create headers dictionary
 headers = {
-	"x-rapidapi-key": "YOUR API KEY",
+	"x-rapidapi-key": "ab794a4f47msh7109b91f8ad7cefp19b78bjsn33ffa8dd8d92",
 	"x-rapidapi-host": "jsearch.p.rapidapi.com"
 }
+try:
+    response7 = requests.get(url, headers=headers, params=querystring, timeout=1, verify=True)
+    response7.raise_for_status()
+except requests.exceptions.RequestException as errh:
+    print(f"General Error: {errh}")
 
-response7 = requests.get(url, headers=headers, params=querystring)
-
-print(response7.json())
 
 
 
