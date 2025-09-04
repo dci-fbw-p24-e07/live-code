@@ -1,0 +1,44 @@
+{% extends "blog/base.html" %}
+{% load static %}
+{% load blog_tags %}
+{% block title %}My Blog{% endblock %}
+{% block content %}
+    <div class="blog-list clearfix">
+    {% if tag %}
+        <h2>Posts tagged "{{ tag.name }}"</h2>
+    {% endif %}
+    {% for post in posts %}
+        <div class="blog-box row">
+            <div class="col-md-4">
+                <div class="post-media">
+                    <a href="{{ post.get_absolute_url }}">
+                        {% if post.cover %}
+                        <img src="{{ post.cover.url }}" alt="" class="img-fluid">
+                        <div class="hovereffect"></div>
+                        {% endif %}
+                    </a>
+                </div><!-- end media -->
+            </div><!-- end col -->
+
+            <div class="blog-meta big-meta col-md-8">
+                <h4><a href="{{ post.get_absolute_url }}" title="">{{ post.title }}</a></h4>
+                <p>{{ post.body|markdown|truncatewords_html:25 }}</p>
+                <small class="firstsmall"><a class="bg-orange" href="tech-category-01.html" title="">Reviews</a></small>
+                <small><a href="detail.html" title="">{{ post.publish }}</a></small>
+                <small><a href="tech-author.html" title="">by {{ post.author }}</a></small>
+                <small><a href="detail.html" title=""><i class="fa fa-eye"></i> 1114</a></small>
+                <div class="tag-cloud-single">
+                    <span>Tags</span>
+                    {% for tag in post.tags.all %}
+                        <small><a href="{% url 'blog_app:post_list_by_tag' tag.slug %}" title="">{{ tag.name }}</a></small>
+                        {% if not forloop.last %}, {% endif %}
+                    {% endfor %}
+                </div><!-- end meta -->
+            </div>
+        </div><!-- end blog-box -->
+
+        <hr class="invis">
+    {% endfor %}
+    </div><!-- end blog-list -->
+    {% include "blog/pagination.html" with page=posts %}
+{% endblock %}

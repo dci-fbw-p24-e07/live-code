@@ -1,0 +1,19 @@
+{% load static %}
+<h2 class="widget-title">Latest Posts</h2>
+<div class="trend-videos">
+    {% for post in latest_posts %}
+    <div class="blog-box">
+        <div class="post-media">
+            <a href="{{ post.get_absolute_url }}" title="">
+                <img src="{% static 'upload/tech_video_01.jpg' %}" alt="" class="img-fluid">
+                <div class="hovereffect">
+                    <span class="videohover"></span>
+                </div><!-- end hover -->
+            </a>
+        </div><!-- end media -->
+        <div class="blog-meta">
+            <h4><a href="{{ post.get_absolute_url }}" title="">{{ post.title }}</a></h4>
+        </div><!-- end meta -->
+    </div><!-- end blog-box -->
+    {% endfor %}
+</div><!-- end videos -->

@@ -1,0 +1,212 @@
+{% extends "blog/base.html" %}
+{% load static %}
+{% load blog_tags %}
+{% block title %}{{ post.title }}{% endblock %}
+{% block content %}
+    <div class="blog-title-area text-center">
+        <ol class="breadcrumb hidden-xs-down">
+            <li class="breadcrumb-item"><a href="#">Home</a></li>
+            <li class="breadcrumb-item"><a href="#">Blog</a></li>
+            <li class="breadcrumb-item active">{{ post.title }}</li>
+        </ol>
+
+        <span class="color-orange"><a href="tech-category-01.html" title="">Technology</a></span>
+
+        <h3>{{ post.title }}</h3>
+
+        <div class="blog-meta big-meta">
+            <small><a href="detail.html" title="">{{ post.publish }}</a></small>
+            <small><a href="tech-author.html" title="">by {{ post.author }}</a></small>
+            <small><a href="#" title=""><i class="fa fa-eye"></i> 2344</a></small>
+        </div><!-- end meta -->
+
+        <div class="post-sharing">
+            <ul class="list-inline">
+                <li><a href="#" class="tw-button btn btn-primary"><i class="fa fa-twitter"></i> <span class="down-mobile">Tweet on Twitter</span></a></li>
+                <li><a href="{% url 'blog_app:post_share' post.id %}" class="fb-button btn btn-primary"><i class="fa fa-envelope"></i><span class="down-mobile">Share via Email</span></a></li>
+            </ul>
+        </div><!-- end post-sharing -->
+    </div><!-- end title -->
+
+    <div class="single-post-media">
+        <img src="upload/tech_menu_08.jpg" alt="" class="img-fluid">
+    </div><!-- end media -->
+
+    <div class="blog-content">
+        <div class="pp">
+            {{ post.body|markdown }}
+        </div><!-- end pp -->
+
+    </div><!-- end content -->
+
+    <div class="blog-title-area">
+        <div class="tag-cloud-single">
+            <span>Tags</span>
+            {% for tag in post.tags.all %}
+                <small><a href="{% url 'blog_app:post_list_by_tag' tag.slug %}" title="">{{ tag.name }}</a></small>
+                {% if not forloop.last %}, {% endif %}
+            {% endfor %}
+        </div><!-- end meta -->
+
+        <div class="post-sharing">
+            <ul class="list-inline">
+                <li><a href="#" class="tw-button btn btn-primary"><i class="fa fa-twitter"></i> <span class="down-mobile">Tweet on Twitter</span></a></li>
+                <li><a href="{% url 'blog_app:post_share' post.id %}" class="fb-button btn btn-primary"><i class="fa fa-envelope"></i><span class="down-mobile">Share via Email</span></a></li>
+            </ul>
+        </div><!-- end post-sharing -->
+    </div><!-- end title -->
+
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="banner-spot clearfix">
+                <div class="banner-img">
+                    <img src="upload/banner_01.jpg" alt="" class="img-fluid">
+                </div><!-- end banner-img -->
+            </div><!-- end banner -->
+        </div><!-- end col -->
+    </div><!-- end row -->
+
+    <hr class="invis1">
+
+    <div class="custombox prevnextpost clearfix">
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="blog-list-widget">
+                    <div class="list-group">
+                        <a href="detail.html" class="list-group-item list-group-item-action flex-column align-items-start">
+                            <div class="w-100 justify-content-between text-right">
+                                <img src="upload/tech_menu_19.jpg" alt="" class="img-fluid float-right">
+                                <h5 class="mb-1">5 Beautiful buildings you need to before dying</h5>
+                                <small>Prev Post</small>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div><!-- end col -->
+
+            <div class="col-lg-6">
+                <div class="blog-list-widget">
+                    <div class="list-group">
+                        <a href="detail.html" class="list-group-item list-group-item-action flex-column align-items-start">
+                            <div class="w-100 justify-content-between">
+                                <img src="upload/tech_menu_20.jpg" alt="" class="img-fluid float-left">
+                                <h5 class="mb-1">Let's make an introduction to the glorious world of history</h5>
+                                <small>Next Post</small>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div><!-- end col -->
+        </div><!-- end row -->
+    </div><!-- end author-box -->
+
+    <hr class="invis1">
+
+    <div class="custombox authorbox clearfix">
+        <h4 class="small-title">About author</h4>
+        <div class="row">
+            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+                <img src="upload/author.jpg" alt="" class="img-fluid rounded-circle">
+            </div><!-- end col -->
+
+            <div class="col-lg-10 col-md-10 col-sm-10 col-xs-12">
+                <h4><a href="#">Jessica</a></h4>
+                <p>Quisque sed tristique felis. Lorem <a href="#">visit my website</a> amet, consectetur adipiscing elit. Phasellus quis mi auctor, tincidunt nisl eget, finibus odio. Duis tempus elit quis risus congue feugiat. Thanks for stop Tech Blog!</p>
+
+                <div class="topsocial">
+                    <a href="#" data-toggle="tooltip" data-placement="bottom" title="Facebook"><i class="fa fa-facebook"></i></a>
+                    <a href="#" data-toggle="tooltip" data-placement="bottom" title="Youtube"><i class="fa fa-youtube"></i></a>
+                    <a href="#" data-toggle="tooltip" data-placement="bottom" title="Pinterest"><i class="fa fa-pinterest"></i></a>
+                    <a href="#" data-toggle="tooltip" data-placement="bottom" title="Twitter"><i class="fa fa-twitter"></i></a>
+                    <a href="#" data-toggle="tooltip" data-placement="bottom" title="Instagram"><i class="fa fa-instagram"></i></a>
+                    <a href="#" data-toggle="tooltip" data-placement="bottom" title="Website"><i class="fa fa-link"></i></a>
+                </div><!-- end social -->
+
+            </div><!-- end col -->
+        </div><!-- end row -->
+    </div><!-- end author-box -->
+
+    <hr class="invis1">
+
+    <div class="custombox clearfix">
+        <h4 class="small-title">Similar posts</h4>
+        <div class="row">
+            {% for post in similar_posts %}
+            <div class="col-lg-6">
+                <div class="blog-box">
+                    <div class="post-media">
+                        <a href="{{ post.get_absolute_url }}" title="">
+                            <img src="{% static 'upload/tech_menu_04.jpg' %}" alt="" class="img-fluid">
+                            <div class="hovereffect">
+                                <span class=""></span>
+                            </div><!-- end hover -->
+                        </a>
+                    </div><!-- end media -->
+                    <div class="blog-meta">
+                        <h4><a href="{{ post.get_absolute_url }}" title="">{{ post.title }}</a></h4>
+                        <small><a href="blog-category-01.html" title="">Trends</a></small>
+                        <small><a href="blog-category-01.html" title="">{{ post.created }}</a></small>
+                    </div><!-- end meta -->
+                </div><!-- end blog-box -->
+            </div><!-- end col -->
+            {% empty %}
+                <h4>There are no similar posts yet.</h4>
+            {% endfor %}
+        </div><!-- end row -->
+    </div><!-- end custom-box -->
+
+    <hr class="invis1">
+
+    <div class="custombox clearfix">
+        {% with comments.count as total_comments %}
+        <h4 class="small-title">{{ total_comments }} comment{{ total_comments|pluralize }}</h4>
+        {% endwith %}
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="comments-list">
+                    {% for comment in comments %}
+                        <div class="media">
+                            <a class="media-left" href="#">
+                                <img src="{% static 'upload/author.jpg' %}" alt="" class="rounded-circle">
+                            </a>
+                            <div class="media-body">
+                                <h4 class="media-heading user_name">{{ comment.name }} <small>{{ comment.created }}</small></h4>
+                                <p>{{ comment.body|linebreaks }}</p>
+                                <a href="#" class="btn btn-primary btn-sm">Reply</a>
+                            </div>
+                        </div>
+                    {% empty %}
+                        <p>There are no comments yet.</p>
+                    {% endfor %}
+                </div>
+            </div><!-- end col -->
+        </div><!-- end row -->
+    </div><!-- end custom-box -->
+
+    <hr class="invis1">
+
+    <div class="custombox clearfix">
+        <h4 class="small-title">Add a comment</h4>
+        {% if new_comment %}
+            <h2>Your comment has been added.</h2>
+        {% else %}
+        <div class="row">
+            <div class="col-lg-12">
+                <form class="form-wrapper" method="post">
+                    {% csrf_token %}
+                    {% for field in comment_form %}
+                            <div>
+                                {{ field.label_tag }}
+                                {{ field.errors }}
+                            </div>
+                            <div>
+                                {{ field }}
+                            </div>
+                        {% endfor %}
+                    <button type="submit" value="Add comment" class="btn btn-primary">Submit Comment</button>
+                </form>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+{% endblock %}
