@@ -23,6 +23,7 @@
 6. Under `Choose An Authentication Method` select `SSH Key` then click the `Add SSH Key` button
     ![](example_imgs/1.6.2.png)
     - Create a new SSH Key:
+        **Using `ssh-keygen`:**
         1. In your terminal use the following command:
             ```shell
             ssh-keygen -t rsa
@@ -42,7 +43,24 @@
             ```shell
             cat ~/.ssh/id_rsa.pub
             ```
-        5. Give your key an appropriate name and click `Add  SSH Key` to confirm
+
+        **Using PuTTYgen:**
+        1. In PuTTYgen, under Parameters, choose:
+            - Type of key to generate: Usually `RSA` (2048 or 4096 bits).
+
+        2. Click `Generate`.
+
+        3. Move your mouse randomly in the blank area to create entropy.
+
+        4. Once complete, PuTTYgen will display your public key.
+
+        5. (Optional) Enter a Key passphrase to protect the private key.
+
+        6. Click Save private key → save as `.ppk` file (e.g., `mykey.ppk`).
+
+        7. Copy the public key text 
+   
+    - Give your key an appropriate name and click `Add  SSH Key` to confirm
     ![](example_imgs/1.6.3.png)
 7. Under `Finalize Details` give your droplet an easily identifiable hostname and select the project you want to create in under
    ![](example_imgs/1.7.png)
@@ -63,7 +81,91 @@ To do so, you need to have an SSH client, like OpenSSH or PuTTY, and the followi
 
 - Once you have your Droplet’s IP address, username, and password or SSH keys, follow the instructions for your SSH client. OpenSSH is included on Linux, macOS, and Windows Subsystem for Linux. Windows users with Bash also have access to OpenSSH. Windows users without Bash can use PuTTY.
 
-- How to Connect via SSH: [https://docs.digitalocean.com/products/droplets/how-to/connect-with-ssh/](https://docs.digitalocean.com/products/droplets/how-to/connect-with-ssh/)
+**Connect using the terminal:**
+
+1. Connect to Your Server
+
+    - Use the ssh command:
+        ```shell
+        ssh username@server_ip
+        ```
+
+    - Example:
+        ```shell
+        ssh ubuntu@203.0.113.10
+        ```
+
+2. (Optional) Specify a Private Key
+
+    - If your server uses a key pair (common for cloud servers):
+        ```shell
+        ssh -i /path/to/private_key.pem username@server_ip
+        ```
+
+    - Example:
+        ```shell
+        ssh -i ~/.ssh/id_rsa ubuntu@203.0.113.10
+        ```
+
+        💡 **Tip: Make sure your key has the right permissions:**
+        ```shell
+        chmod 600 ~/.ssh/id_rsa
+        ```
+
+3. Accept the Host Key
+
+- The first time you connect, you’ll see:
+    ```shell
+    The authenticity of host '203.0.113.10' can't be established.
+    Are you sure you want to continue connecting (yes/no)?
+    ```
+
+Type *yes* and press `Enter`.
+
+4. Enter Your Password (If Required)
+
+- Type your password (nothing will show as you type — this is normal).
+
+- Press `Enter`.
+
+
+**Connect using PuTTY:**
+
+1. Open PuTTY & Configure Session
+
+    1. Open PuTTY (you’ll see the PuTTY Configuration window).
+
+    2. Under Session:
+
+        - In Host Name (or IP address) → enter your server’s IP.
+
+        - Ensure Port = 22 (unless specified otherwise).
+
+        - Set Connection type = SSH.
+
+    3. (Optional) Under Saved Sessions → type a name and click Save
+    This saves the settings for future use.
+
+2. Load a Private Key
+
+- If you’re using a private key:
+
+    1. In the left sidebar, go to Connection → SSH → Auth.
+
+    2. Click Browse and select your .ppk file (PuTTY private key).
+
+        - If you have an OpenSSH key, use PuTTYgen (installed with PuTTY) to convert it to .ppk.
+
+3. Connect to the Server
+
+    1. Click Open.
+
+    2. A terminal window appears. The first time, PuTTY will ask to trust the server’s host key — click Yes.
+
+    3. Enter your username and press Enter.
+
+    4. Enter your password (you won’t see it while typing) and press Enter.
+
 
 ## Install the Packages from the Ubuntu Repositories
 
@@ -111,7 +213,125 @@ sudo apt install python3-venv python3-dev libpq-dev postgresql postgresql-contri
     ```
 
 ## Create a Python Virtual Environment for Project
+
+1. Create a project directory:
+    ```shell
+    mkdir first_project
+    cd first_project
+    ```
+
+2. Create and activate python virtual environment:
+    ```shell
+    python3 -m venv .venv --prompt=first-venv
+
+    source .venv/bin/activate
+    ```
+
+4. Install required packages:
+    - `django`: The Web Framework we want to utilize
+    - `gunicorn`: The application that will connect to Nginx
+    - `psycopg2`: Database connector for PostgreSQL
+    - `python-dotenv`: To abstract environment variables
+    ```shell
+    pip install django gunicorn psycopg2-binary python-dotenv
+    ```
+
 ## Create and Configure New Django Project
+
+1. Create the django project directory:
+    ```shell
+    django-admin startproject config .
+    ```
+    
+
+**Configure environment variables:**
+
+1. Open the `settings.py` and copy the Django Secret Key:
+    ```shell
+    nano config/settings.py
+    ```
+
+2. Create the `.env` and add the variables to it:
+
+    ```shell
+    nano .env
+    ```
+
+    ```
+    SECRET_KEY=<your-django-secret-key>
+
+    # Database Settings
+    DB_NAME=<your-database-name>
+    DB_USER=<your-dtabase-username>
+    DB_PASSWORD=<your-database-password>
+    DB_HOST=<your-database-host>
+    DB_PORT=<your-database-port>
+    ```
+
+    - In order to save the chnages and exit from nano: `Ctrl + X` -> `Shift + Y` -> `Enter`
+
+**Configuring the settings.py for deployment:**
+
+1. Open the `settings.py` file:
+    ```shell
+    nano config/settings.py
+    ```
+
+2. Add the import for the `os` module:
+    ```python 
+    import os
+    ```
+
+3. Add the import for the `load_dotenv` function and call it:
+    ```python
+    from dotenv import load_dotenv
+
+    load_dotenv()
+    ```
+
+4. Set the `DEBUG` setting to `False`:
+
+    ```python
+    DEBUG = False
+    ```
+
+5. Edit the `SECRET_KEY` setting to use environment variables:
+    ```python
+    SECRET_KEY = os.getenv("SECRET_KEY")
+    ```
+
+6. Add the IP addresses and domains for the `ALLOWED_HOSTS`:
+    - Because the database will be connected from the `localhost` we need to the `localhost` or `127.0.0.1` to the the setting
+    - Add the Public IP Address for your virtual machine
+    - (Optional) add any domains configured for the project
+    ```python
+    ALLOWED_HOSTS = ["localhost", "<your-droplet-public-ip>"]
+    ```
+
+7. Add the Database settings to connect to PostgreSQL:
+
+    ```python
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql_psycopg2',
+            'NAME': os.getenv("DB_NAME"),
+            'USER': os.getenv("DB_USER"),
+            'PASSWORD': os.getenv("DB_PASSWORD"),
+            'HOST': os.getenv("DB_HOST"),
+            'PORT': os.getenv("DB_PORT")
+            
+        }
+    }
+    ```
+
+8. Add the `STATIC_ROOT` path:
+
+    ```python
+    STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles/')
+    ```
+
+- In order to save the chnages and exit from nano: `Ctrl + X` -> `Shift + Y` -> `Enter`
+
 ## Complete Django Project Setup
 ## Test Gunicorn’s Ability to Serve the Project
 ## Creating Gunicorn systemd Socket and Service Files
