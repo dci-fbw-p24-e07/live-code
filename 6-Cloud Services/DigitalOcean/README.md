@@ -207,9 +207,10 @@ sudo apt install python3-venv python3-dev libpq-dev postgresql postgresql-contri
 
     - These are recommendations made by the Django project itself
 
-5. Give the new user acces to administer the database:
+5. Give the new user access to administer the database:
     ```sql
     GRANT ALL PRIVILEGES ON DATABASE <database-name> TO <username>;
+    GRANT ALL PRIVILEGES ON SCHEMA public TO <username>;
     ```
 
 ## Create a Python Virtual Environment for Project
@@ -333,6 +334,42 @@ sudo apt install python3-venv python3-dev libpq-dev postgresql postgresql-contri
 - In order to save the chnages and exit from nano: `Ctrl + X` -> `Shift + Y` -> `Enter`
 
 ## Complete Django Project Setup
+
+1. Generate the migration files and apply migrations to our database:
+    ```shell
+    python manage.py makemigrations
+    python manage.py migrate
+    ```
+
+2. Create a superuser:
+    ```shell
+    python manage.py createsuperuser
+    ```
+
+3. Collect all static content into the configured directory:
+    ```shell
+    python manage.py collectstatic
+    ```
+
+4. Allow access to port `8000`:
+   - UFW firewall will be protecting the server and it normally blocks access to ports that have not publicly exposed.
+   - We will use the port `8000` to initally test our deployment
+    ```shell
+    sudo ufw allow 8000
+    ```
+
+5. Test the Django Development server:
+    ```shell
+    python manage.py runserver 0.0.0.0:8000
+    ```
+
+    - The `0.0.0.0` IP Address exposes the network/server to the Public internet allowing you to access the server via it's public IP address.
+
+6. In your browser navigate to:
+    ```
+    http://<your-droplet-public-ip>:8000
+    ```
+
 ## Test Gunicorn’s Ability to Serve the Project
 ## Creating Gunicorn systemd Socket and Service Files
 ## Check Gunicorn Socket File
