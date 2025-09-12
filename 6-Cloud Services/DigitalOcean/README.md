@@ -230,7 +230,7 @@ sudo apt install python3-venv python3-dev libpq-dev postgresql postgresql-contri
 
 4. Install required packages:
     - `django`: The Web Framework we want to utilize
-    - `gunicorn`: The application that will connect to Nginx
+    - `gunicorn`: The application server that will connect to Nginx
     - `psycopg2`: Database connector for PostgreSQL
     - `python-dotenv`: To abstract environment variables
     ```shell
@@ -331,7 +331,7 @@ sudo apt install python3-venv python3-dev libpq-dev postgresql postgresql-contri
     STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles/')
     ```
 
-- In order to save the chnages and exit from nano: `Ctrl + X` -> `Shift + Y` -> `Enter`
+- In order to save the changes and exit from nano: `Ctrl + X` -> `Shift + Y` -> `Enter`
 
 ## Complete Django Project Setup
 
@@ -371,8 +371,120 @@ sudo apt install python3-venv python3-dev libpq-dev postgresql postgresql-contri
     ```
 
 ## Test Gunicorn’s Ability to Serve the Project
+
+- We will need to test Gunicon to make sure it can serve our application well
+- This will be done by loading the projects `WSGI` module through `gunicorn`
+
+```shell
+gunicorn --bind 0.0.0.0:8000 config.wsgi
+```
+
+- this will start `gunicorn` on the same interface that the Django Development server was running on.
+> The admin interface will not have styling(CSS) applied since Gunicorn does not know how to find the static CSS responsible for this
+- The `wsgi.py` file is the main entry point to your application. Inside of this file you will find a function called `application` is defined which is used to communicate with the application.
+
+- Exit the virtual environment:
+```shell
+deactivate
+cd ..
+```
+
 ## Creating Gunicorn systemd Socket and Service Files
+
+- In order to implement a more robust way of starting and stopping the application server we need to configure `systemd` `service` and `socket` files
+- Gunicorn socket will be created at boot and will listen for connections. When a connection occurs, systemd will automatically start the Gunicorn process to handle the connection.
+
+1. Create the systemd `socket` file for Gunicorn:
+    ```shell
+    sudo nano /etc/systemd/system/gunicorn.socket
+    ```
+
+    ```
+    [Unit]
+    Description=gunicorn socket
+
+    [Socket]
+    ListenStream=/run/gunicorn.sock
+
+    [Install]
+    WantedBy=sockets.target
+    ```
+
+    - `[Unit]`: describes a socket
+    - `[Socket]`: defines the socket location
+    - `[Install]`: makes sure the socket is created at the right time
+
+    > In order to save the chnages and exit from nano: `Ctrl + X` -> `Shift + Y` -> `Enter`
+
+2. Create the systemd `service` file for Gunicorn:
+    ```shell
+    sudo nano /etc/systemd/system/gunicorn.service
+    ```
+
+    ```
+    [Unit]
+    Description=gunicorn daemon
+    Requires=gunicorn.socket
+    After=network.target
+
+    [Service]
+    User=root
+    Group=www-data
+    WorkingDirectory=/home/root/first_project
+    ExecStart=/home/root/first_project/.venv/bin/gunicorn \
+                --access-logfile - \
+                --workers 3 \
+                --bind unix:/run/gunicorn.sock \
+                config.wsgi:application
+
+    [Install]
+    WantedBy=multi-user.target
+    ```
+
+    > In order to save the chnages and exit from nano: `Ctrl + X` -> `Shift + Y` -> `Enter`
+
+3. Start and enable the gunicorn socket:
+    - It will create the socket file at `/run/gunicorn.sock`
+    - When a connection is made to that socket, systemd will automatically start the `gunicorn.service`
+  
+    ```shell
+    sudo systemctl start gunicorn.socket
+    sudo systemctl enable gunicorn.socket
+    ```
+
 ## Check Gunicorn Socket File
+
+- Check the status of the process to find out whether it was able to start:
+
+```shell
+sudo systemctl status gunicorn.socket
+```
+
+- Check the existence of the`gunicorn.sock` file:
+```shell
+file /run/gunicorn.sock
+```
+
+- If the `systemctl status` command indicated an error or if you do not find the `gunicorn.sock` file then the Gunicorn socket was not able to be created successfully
+- Check the sockets error logs:
+```shell
+sudo journalctl -u gunicorn.socket
+```
+- Take another look at your `/etc/systemd/system/gunicorn.socket` file to fix any problems before continuing.
+
 ## Testing Socket Activation
+
+- If you have only started the `gunicorn.socket` unit, the `gunicorn.service` unit will not be active since it has not receieved any connections yet.
+
+```shell
+sudo systemctl status gunicorn
+```
+
+- To test the socket activation mechanism, you can send a connection through `curl`
+```shell
+curl --unix-socket /run/gunicorn.sock localhost
+```
+
+
 ## Configure Nginx to Proxy Pass to Gunicorn
 ## Troubleshooting Nginx and Gunicorn
